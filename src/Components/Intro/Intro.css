@@ -36,4 +36,14 @@
 .btn:focus,
 .btn:focus-visible {
   outline: 4px auto #7777;
+  animation: click 200ms ease-in-out;
+}
+
+@keyframes click {
+  0%{
+    transform: scale(1);
+  }
+  100%{
+    transform: scale(1.1);
+  }
 }
