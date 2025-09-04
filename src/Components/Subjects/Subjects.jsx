@@ -4,23 +4,21 @@ import AddSubjectForm from '../Forms/addSubjectForm'
 import { Link } from 'react-router-dom'
 import { Store } from '../../context/Store'
 
-const Subjects = ({ setaddSubForm, setcurrSub }) => {
+const Subjects = ({ setaddSubForm }) => {
     const storeData = useContext(Store)
 
-    console.log(storeData.subjects);
-
-    const handleClick = (e) => {
-        // console.log(e.currentTarget.querySelector('.name').innerHTML);
-        setcurrSub(e.currentTarget.querySelector('.name').innerHTML)
+    const handleClick = (subject) => {
+        console.log("SET:", subject);
+        
+        storeData.setcurrSubject(subject)
     }
 
     return (
         <div className="p-7">
             <h1 className="text-3xl mt-5 font-bold text-gray-800">Subjects</h1>
-            {console.log("Sub:", storeData.subjects)}
-            
+            {console.log("subs : ", storeData.subjects)}
             {storeData.subjects.map(sub => (
-                <div id={sub.id} onClick={handleClick} className='mt-5 p-3 font-semibold relative pl-7 bg-[#5555] rounded-2xl'>
+                <div key={sub._id} onClick={()=>handleClick(sub)} className='mt-5 p-3 font-semibold relative pl-7 bg-[#5555] rounded-2xl'>
                     <div className='absolute bg-gray-700 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
                     <p className='name'>{sub.name}</p>
                 </div>

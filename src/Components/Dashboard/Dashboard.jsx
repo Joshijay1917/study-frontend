@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { FaBook, FaBookOpen } from 'react-icons/fa'
 import { FaBookAtlas } from 'react-icons/fa6'
 import Subjects from '../Subjects/Subjects'
 import Options from '../Options/Options'
 import Navbar from '../Navbar/Navbar'
 import AddSubjectForm from '../Forms/addSubjectForm'
+import NoteForm from '../Forms/noteForm'
+import { Store } from '../../context/Store'
 
 const Dashboard = () => {
   const [addSubForm, setaddSubForm] = useState(false)
-  const [currSub, setcurrSub] = useState("")
+  const storeData = useContext(Store)
 
   return (
     <>
@@ -28,12 +30,13 @@ const Dashboard = () => {
 
         <div className="flex-1 relative">
           <div className="absolute inset-y-0 top-[12%] left-0 right-0 bg-white rounded-tl-[80px] rounded-tr-[0px] shadow-lg">
-            {!currSub && <Subjects setaddSubForm={setaddSubForm} setcurrSub={setcurrSub} />}
-            {currSub && <Options subject={currSub} />}
+            {!storeData.currSubject && <Subjects setaddSubForm={setaddSubForm} />}
+            {storeData.currSubject && <Options />}
           </div>
         </div>
       </div>
       {addSubForm && <AddSubjectForm setaddSubForm={setaddSubForm} />}
+      {storeData.form && <NoteForm />}
     </>
   )
 }

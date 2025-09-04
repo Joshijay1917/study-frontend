@@ -37,20 +37,32 @@ const addSubjectForm = ({setaddSubForm}) => {
       return;
     }
 
+    // console.log("Back:", process.env.BACKEND_URI);
     try {
-      const strRes = await fetch(`${process.env.BACKEND_URI}/api/v1/subject/add`, {
+      
+      // const strRes = await fetch(`${process.env.BACKEND_URI}/api/v1/subject/add`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(formData)
+      // })
+      const strRes = await fetch(`http://localhost:3000/api/v1/subject/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
       })
-      const res = strRes.json()
+      const res = await strRes.json();
 
       if(res.statusCode >= 400) {
         seterr(res.message)
       }
 
+      const subject = res.data
+      console.log("sub:", res);
+      storeData.setsubjects(prev => [...prev, subject])
       setaddSubForm(false)
     } catch (error) {
       seterr("Failed to connect to database!! : ", error)
