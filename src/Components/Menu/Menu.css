@@ -1,0 +1,12 @@
+.side{
+    animation: side 3s ease-in-out;
+}
+
+@keyframes side {
+    0%{
+
+    }
+    100% {
+        width: 0;
+    }
+}
