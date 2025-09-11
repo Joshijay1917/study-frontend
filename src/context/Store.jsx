@@ -6,6 +6,7 @@ export const Store = createContext(null)
 const storeProvider = (props) => {
     const [subjects, setsubjects] = useState([])
     const [currSubject, setcurrSubject] = useState("")
+    const [currDetail, setcurrDetail] = useState("")
     const [notesDetails, setnotesDetails] = useState([])
     const [assDetails, setassDetails] = useState([])
     const [labDetails, setlabDetails] = useState([])
@@ -65,16 +66,16 @@ const storeProvider = (props) => {
                 // console.log("SEND:", subject.name);
                 console.log("Details : ", details, require);
                 if (!details) {
-                    console.error("Failed to get details of subjects from backend")
+                    console.error("Failed to get details of subject from backend")
                     return null;
                 }
                 if (require === "Notes") {
                     details.forEach(note => {
                         setnotesDetails(prev => [...prev, {
                             _id: note._id,
+                            type: "Notes",
                             subject: currSubject._id,
-                            unit: note.unit,
-                            name: note.name,
+                            require: `Unit - ${note.unit}: ${note.name}`,
                             photos: []
                         }])
                     });
@@ -82,6 +83,7 @@ const storeProvider = (props) => {
                     details.forEach(ass => {
                         setassDetails(prev => [...prev, {
                             _id: ass._id,
+                            type: "Assignment",
                             subject: currSubject._id,
                             require: `Assignment - ${ass.number}`,
                             deadline: ass.deadline,
@@ -92,6 +94,7 @@ const storeProvider = (props) => {
                     details.forEach(lab => {
                         setlabDetails(prev => [...prev, {
                             _id: lab._id,
+                            type: "LabManual",
                             subject: currSubject._id,
                             require: `${lab.name}`,
                             photos: []
@@ -144,21 +147,114 @@ const storeProvider = (props) => {
         }
     }
 
+    const getPhotos = async (require) => {
+        if(require !== '') {
+            try {
+                const strRes = await fetch(`http://localhost:3000/api/v1/${require.toLocaleLowerCase().trim()}/photos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ detailId: currDetail._id})
+                })
+                const res = await strRes.json()
 
+                if(!res || res.statusCode >= 400) {
+                    console.error("Failed : ", res.message)
+                    return null;
+                }
+
+                return res.data;
+            } catch (error) {
+                console.error("Failed to call backend" || error.message)
+                return null;
+            }
+        }
+    }
+
+    const managePhotos = async (photo) => {
+        if(!currDetail) {
+            return null;
+        }
+
+        if(currDetail.type === "Notes") {
+            const note = notesDetails.find(note => note._id === currDetail._id)
+            if(!note) {
+                console.error("Failed to find note")
+                return null;
+            }
+            if(photo) {
+                note.photos.push(photo)
+                return note;
+            }
+            if(note.photos.length === 0) {
+                const photos = await getPhotos("Notes")
+                if(!photos) {
+                    console.error("Photos of this notes not found")
+                    return null;
+                }
+                note.photos.push(...photos)
+            }
+            return note;
+        } else if(currDetail.type === "Assignment") {
+            const ass = assDetails.find(ass => ass._id === currDetail._id)
+            if(!ass) {
+                console.error("Failed to find assignment")
+                return null;
+            }
+            if(photo) {
+                ass.photos.push(photo)
+                return ass;
+            }
+            if(ass.photos.length === 0) {
+                const photos = await getPhotos("Assignment")
+                if(!photos) {
+                    console.error("Photos of this assignments not found")
+                    return null;
+                }
+                ass.photos.push(...photos)
+            }
+            return ass;
+        } else {
+            const lab = labDetails.find(lab => lab._id === currDetail._id)
+            if(!lab) {
+                console.error("Failed to find lab manual")
+                return null;
+            }
+            if(photo) {
+                lab.photos.push(photo)
+                return lab;
+            }
+            if(lab.photos.length === 0) {
+                const photos = await getPhotos("LabManual")
+                if(!photos) {
+                    console.error("Photos of this lab manual not found")
+                    return null;
+                }
+                lab.photos.push(...photos)
+            }
+            return lab;
+        }
+    }
+
+    
     const contextValue = {
         subjects,
         currSubject,
         notesDetails,
         assDetails,
         labDetails,
+        currDetail,
         setsubjects,
         setcurrSubject,
         setnotesDetails,
         setassDetails,
         setlabDetails,
+        setcurrDetail,
 
         manageDetails,
-        checkAndAddDetails
+        checkAndAddDetails,
+        managePhotos
     }
 
     return (

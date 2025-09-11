@@ -52,6 +52,7 @@ const labForm = ({setlabform }) => {
 
             storeData.setlabDetails(prev => [...prev, {
                 _id: lab._id,
+                type: "LabManual",
                 subject: lab.subject,
                 require: lab.name,
                 photos: []

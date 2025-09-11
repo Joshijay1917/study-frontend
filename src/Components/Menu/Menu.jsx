@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import { FaBook, FaBookOpen } from 'react-icons/fa'
+import { FaBook, FaBookOpen, FaHistory, FaUser } from 'react-icons/fa'
 import { FaBookAtlas } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
+import './Menu.css'
 
-const Menu = () => {
-    
+const Menu = ({currManu, setcurrManu}) => {
+    const [anim, setanim] = useState(false)
+
+    setTimeout(() => {
+        setanim(true)
+    }, 2000);
+
     return (
-        <div className={`w-16 flex flex-col my-[30%] items-center py-10 space-y-6 text-white`}>
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaBook className='text-2xl' />
-            </div>
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaBookAtlas className='text-2xl' />
-            </div>
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaBookOpen className='text-2xl' />
-            </div>
+        <div className={`side ${anim ? 'w-[65px]' : ''} flex flex-col my-[30%] items-center py-10 space-y-6 text-white`}>
+            <Link to={'/dashboard'} onClick={()=>setcurrManu("Dashboard")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <FaBook className={`${currManu === "Dashboard" ? 'text-4xl' : 'text-xl'}`} />
+            </Link>
+            <Link to={'/history'} onClick={()=>setcurrManu("History")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <FaHistory className={`${currManu === "History" ? 'text-4xl' : 'text-xl'}`} />
+            </Link>
+            <Link to={'/about'} onClick={()=>setcurrManu("About")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <FaUser className={`${currManu === "About" ? 'text-4xl' : 'text-xl'}`} />
+            </Link>
         </div>
     )
 }

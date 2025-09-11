@@ -61,9 +61,9 @@ const noteForm = ({setnoteForm}) => {
       
       storeData.setnotesDetails(prev => [...prev, {
         _id: note._id,
+        type: "Notes",
         subject: note.subject,
-        unit: note.unit,
-        name: note.name,
+        require: `Unit - ${note.unit}: ${note.name}`,
         photos: []
       }])
       

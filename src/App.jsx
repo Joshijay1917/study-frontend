@@ -8,10 +8,14 @@ import Options from './Components/Options/Options'
 import Navbar from './Components/Navbar/Navbar'
 import Menu from './Components/Menu/Menu'
 import { Store } from './context/Store'
+import Photos from './Components/Photos/Photos'
+import History from './Components/History/History'
+import AboutUs from './Components/AboutUs/AboutUs'
 import "./App.css"
 
 function App() {
   const [LoggedIn, setLoggedIn] = useState(false)
+  const [currManu, setcurrManu] = useState("Dashboard")
   const navigate = useNavigate()
   const storeData = useContext(Store)
 
@@ -24,7 +28,7 @@ function App() {
         LoggedIn ? <>
           <Navbar />
           <div className='bg-zinc-800 min-h-screen flex'>
-            <Menu />
+            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
             <Dashboard />
           </div>
         </> : <Navigate to={'/login'}/>
@@ -33,8 +37,35 @@ function App() {
         LoggedIn ? <>
           <Navbar />
           <div className='bg-zinc-800 min-h-screen flex'>
-            <Menu />
+            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
             <Options />
+          </div>
+        </> : <Navigate to={'/login'}/>
+      } />
+      <Route path='/dashboard/:subjectId/:detailId' element={
+        LoggedIn ? <>
+          <Navbar />
+          <div className='bg-zinc-800 min-h-screen flex'>
+            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
+            <Photos />
+          </div>
+        </> : <Navigate to={'/login'}/>
+      } />
+      <Route path='/history' element={
+        LoggedIn ? <>
+          <Navbar />
+          <div className='bg-zinc-800 min-h-screen flex'>
+            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
+            <History />
+          </div>
+        </> : <Navigate to={'/login'}/>
+      } />
+      <Route path='/about' element={
+        LoggedIn ? <>
+          <Navbar />
+          <div className='bg-zinc-800 min-h-screen flex'>
+            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
+            <AboutUs />
           </div>
         </> : <Navigate to={'/login'}/>
       } />

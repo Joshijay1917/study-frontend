@@ -57,6 +57,7 @@ const AssignmentForm = ({setassForm}) => {
 
       storeData.setassDetails(prev => [...prev, {
         _id: ass._id,
+        type: "Assignment",
         subject: ass.subject,
         require: `Assignment - ${ass.number}`,
         deadline: ass.deadline,
