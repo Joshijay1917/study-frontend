@@ -9,18 +9,18 @@ const Menu = ({currManu, setcurrManu}) => {
 
     setTimeout(() => {
         setanim(true)
-    }, 2000);
+    }, 1000);
 
     return (
         <div className={`side ${anim ? 'w-[65px]' : ''} flex flex-col my-[30%] items-center py-10 space-y-6 text-white`}>
             <Link to={'/dashboard'} onClick={()=>setcurrManu("Dashboard")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaBook className={`${currManu === "Dashboard" ? 'text-4xl' : 'text-xl'}`} />
+                <FaBook className={`${currManu === "Dashboard" ? `${anim ? 'icon' : ''} text-[35px]` : 'text-xl'}`} />
             </Link>
             <Link to={'/history'} onClick={()=>setcurrManu("History")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaHistory className={`${currManu === "History" ? 'text-4xl' : 'text-xl'}`} />
+                <FaHistory className={`${currManu === "History" ? `${anim ? 'icon' : ''} text-[35px]` : 'text-xl'}`} />
             </Link>
             <Link to={'/about'} onClick={()=>setcurrManu("About")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaUser className={`${currManu === "About" ? 'text-4xl' : 'text-xl'}`} />
+                <FaUser className={`${currManu === "About" ? `${anim ? 'icon' : ''} text-[35px]` : 'text-xl'}`} />
             </Link>
         </div>
     )

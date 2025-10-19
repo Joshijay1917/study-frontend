@@ -1,0 +1,24 @@
+.side{
+    animation: side 1s ease-in-out;
+}
+.icon{
+    animation: icon 0.2s ease-in-out;
+}
+
+@keyframes side {
+    0%{
+        width: 0;
+    }
+    100% {
+        width: 65px;
+    }
+}
+
+@keyframes icon {
+    0%{
+        font-size: 20px;
+    }
+    100% {
+        font-size: 35px;
+    }
+}

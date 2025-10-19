@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Store } from '../../context/Store'
+import { Store } from '../../../context/Store'
 import { useParams } from 'react-router-dom'
 
 const Photos = () => {
@@ -78,6 +78,9 @@ const Photos = () => {
                 <div className="absolute inset-y-0 top-[12%] left-0 right-0 bg-white rounded-tl-[80px] rounded-tr-[0px] shadow-lg overflow-auto">
                     <div className='p-7 bg-white'>
                         <h1 className='text-2xl my-5 font-bold text-gray-800'>{storeData.currSubject.name.toUpperCase()} / {storeData.currDetail.require}</h1>
+                        {photos.length > 0 && <div className='w-full flex justify-end'>
+                            <button className='btn bg-red-500 text-white'>Download PDF</button>
+                        </div>}
                         <div className='flex flex-col gap-5'>
                             {photos.map(photo => (
                                 <img key={photo._id} src={photo.url} />
@@ -85,7 +88,8 @@ const Photos = () => {
                         </div>
                         <input id='takePhoto' onChange={handleChange} type="file" capture="environment" className='hidden' />
                         <label htmlFor="takePhoto">
-                            <img width={100} height={100} className='fixed bottom-0 rounded-full m-5 right-0 z-30' src='https://static.vecteezy.com/system/resources/previews/045/792/293/original/camera-icon-simple-icon-quality-interface-vector.jpg' alt="Camera" />
+                            {/* <img width={100} height={100} className='fixed bottom-0 rounded-full m-5 right-0 z-30' src='https://static.vecteezy.com/system/resources/previews/045/792/293/original/camera-icon-simple-icon-quality-interface-vector.jpg' alt="Camera" /> */}
+                            <img width={100} height={100} className='fixed bottom-0 rounded-full m-5 right-0 z-30' src='../../camera-icon.jpg' alt="Camera" />
                         </label>
                     </div>
                 </div>

@@ -1,16 +1,17 @@
 import { useContext, useState } from 'react'
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import Dashboard from './Components/Dashboard/Dashboard'
-import Intro from './Components/Intro/Intro'
-import Login from './Components/Login/Login'
-import Register from './Components/Register/Register'
-import Options from './Components/Options/Options'
-import Navbar from './Components/Navbar/Navbar'
-import Menu from './Components/Menu/Menu'
+import Dashboard from './Components/Pages/Dashboard/Dashboard'
+import Intro from './Components/Auth/Intro/Intro'
+import Login from './Components/Auth/Login/Login'
+import Register from './Components/Auth/Register/Register'
+import Options from './Components/Headers/Options/Options'
+import Navbar from './Components/Headers/Navbar/Navbar'
+import Menu from './Components/Headers/Menu/Menu'
 import { Store } from './context/Store'
-import Photos from './Components/Photos/Photos'
-import History from './Components/History/History'
-import AboutUs from './Components/AboutUs/AboutUs'
+import Photos from './Components/Pages/Photos/Photos'
+import History from './Components/Pages/History/History'
+import AboutUs from './Components/Pages/AboutUs/AboutUs'
+import NotFound from './Components/Pages/NotFound/NotFound'
 import "./App.css"
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
           </div>
         </> : <Navigate to={'/login'}/>
       } />
+      <Route path='*' element={<NotFound />} />
     </Routes>
 
   )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Subjects from '../Subjects/Subjects'
-import AddSubjectForm from '../Forms/addSubjectForm'
+import AddSubjectForm from '../../Forms/addSubjectForm'
 
 const Dashboard = () => {
   const [addSubForm, setaddSubForm] = useState(false)

@@ -1,6 +1,6 @@
 import React from 'react'
 import Menu from '../Menu/Menu'
-import Dashboard from '../Dashboard/Dashboard'
+import Dashboard from '../../Pages/Dashboard/Dashboard'
 
 const Navbar = () => {
     return (
