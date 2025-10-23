@@ -15,7 +15,7 @@ const storeProvider = (props) => {
     const [labDetails, setlabDetails] = useState([])
 
     useEffect(() => {
-    //   verifyUser();
+      verifyUser();
     }, [])
     
 
