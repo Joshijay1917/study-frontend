@@ -21,7 +21,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<Intro />} />
+      <Route path='/' element={storeData.LoggedIn ? <Navigate to={'/dashboard'} /> : <Intro />} />
       <Route path='/login' element={storeData.LoggedIn ? <Navigate to={'/dashboard'} /> : <Login setLoggedIn={storeData.setLoggedIn} />} />
       <Route path='/register' element={storeData.LoggedIn ? <Navigate to={'/dashboard'} /> : <Register />} />
       <Route path='/dashboard' element={
