@@ -1,24 +1,60 @@
 import { createContext, useEffect, useState } from "react";
 
-
 export const Store = createContext(null)
 
 const storeProvider = (props) => {
+    const [LoggedIn, setLoggedIn] = useState(false)
+    const [currentUser, setCurrentUser] = useState(null)
     const [subjects, setsubjects] = useState([])
     const [currSubject, setcurrSubject] = useState("")
     const [currDetail, setcurrDetail] = useState("")
     const [notesDetails, setnotesDetails] = useState([])
     const [assDetails, setassDetails] = useState([])
     const [labDetails, setlabDetails] = useState([])
-    // const [currentStatus, setcurrentStatus] = useState([])
 
     useEffect(() => {
-        getAllSubjects()
+      verifyUser();
     }, [])
+    
 
+    useEffect(() => {
+        if(LoggedIn) {
+            getAllSubjects()
+        }
+    }, [LoggedIn])
+
+    const verifyUser = async () => {
+        try {
+            const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/user/curr-user`, { credentials: 'include' })
+            const res = await strRes.json()
+
+            setLoggedIn(true)
+            setCurrentUser(res.data)
+        } catch (error) {
+            console.log("Token is expired or invalid")
+            await refreshToken();
+        }
+    }
+
+    const refreshToken = async () => {
+        try {
+            const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/user/refresh-token`)
+
+            if(!strRes.ok) {
+                setLoggedIn(false);
+                return;
+            }
+
+            await verifyUser();
+        } catch (error) {
+            console.error("Failed to refresh tokens!!")
+        }
+    }
+
+    //Fetch All Subjects From Backend
     const getAllSubjects = async () => {
         try {
-            const strRes = await fetch('http://localhost:3000/api/v1/subject/getAll')
+            const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/subject/getAll`)
             const res = await strRes.json()
 
             if (!res || res.statusCode >= 400) {
@@ -32,10 +68,11 @@ const storeProvider = (props) => {
         }
     }
 
+    //Fetch Specific Requirement (e.g. notes, assignments and lab manual) From Backend
     const getRequires = async (require) => {
         if (require !== "") {
             try {
-                const url = `http://localhost:3000/api/v1/${require.toLocaleLowerCase().trim()}/getAll`
+                const url = `${import.meta.env.VITE_BACKEND_URI}/api/v1/${require.toLocaleLowerCase().trim()}/getAll`
                 const strRes = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -59,6 +96,7 @@ const storeProvider = (props) => {
         return null
     }
 
+    //Populate notes, assignments and lab manual array by calling getRequires function
     const manageDetails = async (require) => {
         if (currSubject) {
             try {
@@ -108,6 +146,7 @@ const storeProvider = (props) => {
         return null
     }
 
+    //Check currentSubjects requirements is available if not than call manageDetails function
     const checkAndAddDetails = async (require) => {
         if(require === "Notes") {
             if(notesDetails.length !== 0) {
@@ -123,7 +162,6 @@ const storeProvider = (props) => {
         } else if(require === "Assignments") {
             if(assDetails.length !== 0) {
                 const check = assDetails.find(ass => ass.subject === currSubject._id)
-                
                 if(check) {
                     return;
                 }
@@ -147,10 +185,11 @@ const storeProvider = (props) => {
         }
     }
 
+    //Fetch all photos from backend according to current requirement
     const getPhotos = async (require) => {
         if(require !== '') {
             try {
-                const strRes = await fetch(`http://localhost:3000/api/v1/${require.toLocaleLowerCase().trim()}/photos`, {
+                const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/${require.toLocaleLowerCase().trim()}/photos`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -172,6 +211,7 @@ const storeProvider = (props) => {
         }
     }
 
+    //Use for addPhotos, fetch Photos(call getPhotos) and check requirement is available or not
     const managePhotos = async (photo) => {
         if(!currDetail) {
             return null;
@@ -245,12 +285,14 @@ const storeProvider = (props) => {
         assDetails,
         labDetails,
         currDetail,
+        LoggedIn,
         setsubjects,
         setcurrSubject,
         setnotesDetails,
         setassDetails,
         setlabDetails,
         setcurrDetail,
+        setLoggedIn,
 
         manageDetails,
         checkAndAddDetails,

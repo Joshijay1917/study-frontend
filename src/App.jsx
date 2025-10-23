@@ -15,7 +15,6 @@ import NotFound from './Components/Pages/NotFound/NotFound'
 import "./App.css"
 
 function App() {
-  const [LoggedIn, setLoggedIn] = useState(false)
   const [currManu, setcurrManu] = useState("Dashboard")
   const navigate = useNavigate()
   const storeData = useContext(Store)
@@ -23,10 +22,10 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Intro />} />
-      <Route path='/login' element={LoggedIn ? <Navigate to={'/dashboard'} /> : <Login setLoggedIn={setLoggedIn} />} />
-      <Route path='/register' element={LoggedIn ? <Navigate to={'/dashboard'} /> : <Register />} />
+      <Route path='/login' element={storeData.LoggedIn ? <Navigate to={'/dashboard'} /> : <Login setLoggedIn={storeData.setLoggedIn} />} />
+      <Route path='/register' element={storeData.LoggedIn ? <Navigate to={'/dashboard'} /> : <Register />} />
       <Route path='/dashboard' element={
-        LoggedIn ? <>
+        storeData.LoggedIn ? <>
           <Navbar />
           <div className='bg-zinc-800 min-h-screen flex'>
             <Menu setcurrManu={setcurrManu} currManu={currManu}/>
@@ -35,7 +34,7 @@ function App() {
         </> : <Navigate to={'/login'}/>
       } />
       <Route path='/dashboard/:subjectId' element={
-        LoggedIn ? <>
+        storeData.LoggedIn ? <>
           <Navbar />
           <div className='bg-zinc-800 min-h-screen flex'>
             <Menu setcurrManu={setcurrManu} currManu={currManu}/>
@@ -44,7 +43,7 @@ function App() {
         </> : <Navigate to={'/login'}/>
       } />
       <Route path='/dashboard/:subjectId/:detailId' element={
-        LoggedIn ? <>
+        storeData.LoggedIn ? <>
           <Navbar />
           <div className='bg-zinc-800 min-h-screen flex'>
             <Menu setcurrManu={setcurrManu} currManu={currManu}/>
@@ -53,7 +52,7 @@ function App() {
         </> : <Navigate to={'/login'}/>
       } />
       <Route path='/history' element={
-        LoggedIn ? <>
+        storeData.LoggedIn ? <>
           <Navbar />
           <div className='bg-zinc-800 min-h-screen flex'>
             <Menu setcurrManu={setcurrManu} currManu={currManu}/>
@@ -62,7 +61,7 @@ function App() {
         </> : <Navigate to={'/login'}/>
       } />
       <Route path='/about' element={
-        LoggedIn ? <>
+        storeData.LoggedIn ? <>
           <Navbar />
           <div className='bg-zinc-800 min-h-screen flex'>
             <Menu setcurrManu={setcurrManu} currManu={currManu}/>

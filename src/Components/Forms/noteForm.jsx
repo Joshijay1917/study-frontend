@@ -43,7 +43,7 @@ const noteForm = ({setnoteForm}) => {
     }
 
     try {
-      const strRes = await fetch(`http://localhost:3000/api/v1/notes/add`, {
+      const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/notes/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
