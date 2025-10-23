@@ -4,7 +4,7 @@ import "./Loading.css"
 
 const Loading = () => {
   return (
-    <div className='bg-black/50 fixed top-0 min-h-screen w-full flex justify-center items-center'>
+    <div className='bg-black/50 z-30 fixed top-0 min-h-screen w-full flex justify-center items-center'>
       <div className='text-7xl rotate'>
         <FaAddressBook className='text-gray-300'/>
       </div>
