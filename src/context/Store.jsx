@@ -38,7 +38,7 @@ const storeProvider = (props) => {
 
     const refreshToken = async () => {
         try {
-            const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/user/refresh-token`)
+            const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/user/refresh-token`, { credentials: 'include' })
 
             if(!strRes.ok) {
                 setLoggedIn(false);
