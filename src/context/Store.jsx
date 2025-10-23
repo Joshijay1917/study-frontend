@@ -1,10 +1,12 @@
 import { createContext, useEffect, useState } from "react";
+import Loading from "../Components/Pages/Loading/Loading";
 
 export const Store = createContext(null)
 
 const storeProvider = (props) => {
     const [LoggedIn, setLoggedIn] = useState(false)
     const [currentUser, setCurrentUser] = useState(null)
+    const [loadingState, setLoadingState] = useState(false)
     const [subjects, setsubjects] = useState([])
     const [currSubject, setcurrSubject] = useState("")
     const [currDetail, setcurrDetail] = useState("")
@@ -13,7 +15,7 @@ const storeProvider = (props) => {
     const [labDetails, setlabDetails] = useState([])
 
     useEffect(() => {
-      verifyUser();
+    //   verifyUser();
     }, [])
     
 
@@ -24,6 +26,7 @@ const storeProvider = (props) => {
     }, [LoggedIn])
 
     const verifyUser = async () => {
+        setLoadingState(true);
         try {
             const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/user/curr-user`, { credentials: 'include' })
             const res = await strRes.json()
@@ -33,10 +36,13 @@ const storeProvider = (props) => {
         } catch (error) {
             console.log("Token is expired or invalid")
             await refreshToken();
+        } finally {
+            setLoadingState(false);
         }
     }
 
     const refreshToken = async () => {
+        setLoadingState(true)
         try {
             const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/user/refresh-token`, { credentials: 'include' })
 
@@ -48,11 +54,14 @@ const storeProvider = (props) => {
             await verifyUser();
         } catch (error) {
             console.error("Failed to refresh tokens!!")
+        } finally {
+            setLoadingState(false)
         }
     }
 
     //Fetch All Subjects From Backend
     const getAllSubjects = async () => {
+        setLoadingState(true)
         try {
             const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/subject/getAll`)
             const res = await strRes.json()
@@ -65,6 +74,8 @@ const storeProvider = (props) => {
             setsubjects(res.data)
         } catch (error) {
             console.error("Failed to fetch subjects in backend : ", error)
+        } finally {
+            setLoadingState(false)
         }
     }
 
@@ -188,6 +199,7 @@ const storeProvider = (props) => {
     //Fetch all photos from backend according to current requirement
     const getPhotos = async (require) => {
         if(require !== '') {
+            setLoadingState(true)
             try {
                 const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/${require.toLocaleLowerCase().trim()}/photos`, {
                     method: 'POST',
@@ -207,11 +219,13 @@ const storeProvider = (props) => {
             } catch (error) {
                 console.error("Failed to call backend" || error.message)
                 return null;
+            } finally {
+                setLoadingState(false)
             }
         }
     }
 
-    //Use for addPhotos, fetch Photos(call getPhotos) and check requirement is available or not
+    //Use for addPhotos, fetch Photos(call getPhotos) and check required photos available or not
     const managePhotos = async (photo) => {
         if(!currDetail) {
             return null;
@@ -286,6 +300,8 @@ const storeProvider = (props) => {
         labDetails,
         currDetail,
         LoggedIn,
+        currentUser,
+        loadingState,
         setsubjects,
         setcurrSubject,
         setnotesDetails,
@@ -293,6 +309,8 @@ const storeProvider = (props) => {
         setlabDetails,
         setcurrDetail,
         setLoggedIn,
+        setCurrentUser,
+        setLoadingState,
 
         manageDetails,
         checkAndAddDetails,
@@ -302,6 +320,7 @@ const storeProvider = (props) => {
     return (
         <Store.Provider value={contextValue}>
             {props.children}
+            {loadingState && <Loading />}
         </Store.Provider>
     )
 }

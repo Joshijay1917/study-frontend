@@ -24,9 +24,7 @@ const Login = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log("username:", e.target.username);
         
-
         if(form.username == '') {
             seterr("Please Enter username!")
             e.target.username.style.border = '1px solid red'
@@ -41,8 +39,9 @@ const Login = () => {
         } else {
             e.target.password.style.border = ''
         }
-
+        
         seterr('')
+        storeData.setLoadingState(true)
 
         try {
             const strRes = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/v1/user/login`, {
@@ -63,6 +62,7 @@ const Login = () => {
 
             if(res.statusCode >= 400) {
                 seterr(res.message)
+                storeData.setLoadingState(false)
                 return;
             }
 
@@ -71,7 +71,8 @@ const Login = () => {
         } catch (error) {
             console.error("Not connect to backend : ", error)
             seterr('Cannot connect to the server!!')
-            return;
+        } finally {
+            storeData.setLoadingState(false)
         }
     }
 
@@ -89,11 +90,11 @@ const Login = () => {
                 </div>
                 <div className='flex gap-3 mx-auto items-center'>
                     <label className='flex items-center gap-3' htmlFor="username"><FaUser className='text-blue-400' /> Username</label>
-                    <input onChange={handleChange} className='bg-gray-800 p-3 w-3/4 rounded-2xl' type="text" name='username' placeholder='Username' />
+                    <input onChange={handleChange} className='bg-gray-800 p-3 w-3/4 rounded-2xl' type="text" name='username' placeholder='Username' id='username'/>
                 </div>
                 <div className='flex gap-3 mx-auto items-center'>
-                    <label className='flex items-center gap-3' htmlFor="username"><FaLock className='text-blue-400 text-lg' /> Password</label>
-                    <input onChange={handleChange} className='bg-gray-800 p-3 w-3/4 rounded-2xl' type="text" name='password' placeholder='Password' />
+                    <label className='flex items-center gap-3' htmlFor="password"><FaLock className='text-blue-400 text-lg' /> Password</label>
+                    <input onChange={handleChange} className='bg-gray-800 p-3 w-3/4 rounded-2xl' type="text" name='password' placeholder='Password' id='password'/>
                 </div>
                 <p>{err}</p>
                 <button type='submit' className='bg-blue-400 btn p-2 px-6 font-bold rounded-2xl flex items-center gap-3 text-gray-200'><ImEnter className='text-xl mt-1' /> Login</button>
