@@ -24,7 +24,7 @@ const LatestUpdates = () => {
       <div className="absolute inset-y-0 top-[12%] left-0 right-0 bg-white rounded-tl-[80px] rounded-tr-[0px] shadow-lg overflow-auto">
         <div className='p-7'>
           <h1 className='text-3xl mt-5 font-bold text-gray-800'>Latest Updates</h1>
-          {data?.data && <p className='text-red-500 flex items-center gap-2 font-semibold justify-center py-10'><MdReportProblem className='text-yellow-600 text-2xl'/> No Updates are available!! <MdReportProblem className='text-yellow-600 text-2xl'/></p>}
+          {data?.data && <p className='text-red-500 flex items-center gap-2 font-semibold text-nowrap justify-center py-10'><MdReportProblem className='text-yellow-600 text-2xl'/> No Updates are available!! <MdReportProblem className='text-yellow-600 text-2xl'/></p>}
           {data?.data && data.data.map(update => (
             <div key={update._id} onClick={()=>handleClick(update)} className='mt-5 cursor-pointer p-3 font-semibold relative pl-7 bg-[#2222] rounded-2xl'>
                     <div className='absolute bg-blue-800 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
