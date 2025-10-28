@@ -144,6 +144,38 @@ export const ApiSlice = createApi({
         getLatestUpdates: builder.query({
             query: () => '/latestUpdates/',
             providesTags: ['LatestUpdates']
+        }),
+        deleteSubject: builder.mutation({
+            query: (subjectId) => ({
+                url: '/subject/delete',
+                method: 'DELETE',
+                body: subjectId
+            }),
+            invalidatesTags: ['Subjects']
+        }),
+        deleteNote: builder.mutation({
+            query: (notesId) => ({
+                url: '/notes/delete',
+                method: 'DELETE',
+                body: notesId
+            }),
+            invalidatesTags: ['Notes']
+        }),
+        deleteAssignment: builder.mutation({
+            query: (assignmentId) => ({
+                url: '/assignment/delete',
+                method: 'DELETE',
+                body: assignmentId
+            }),
+            invalidatesTags: ['Assi']
+        }),
+        deleteLabmanual: builder.mutation({
+            query: (labmanualId) => ({
+                url: '/labmanual/delete',
+                method: 'DELETE',
+                body: labmanualId
+            }),
+            invalidatesTags: ['Labs']
         })
     })
 })
@@ -165,5 +197,9 @@ export const {
     useAddNoteMutation,
     useAddAssignmentMutation,
     useAddLabManualMutation,
-    useGetLatestUpdatesQuery
+    useGetLatestUpdatesQuery,
+    useDeleteSubjectMutation,
+    useDeleteNoteMutation,
+    useDeleteAssignmentMutation,
+    useDeleteLabmanualMutation
  } = ApiSlice
