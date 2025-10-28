@@ -14,7 +14,7 @@ const Menu = () => {
     }, [anim])
 
   return (
-     <div className={`side px-2 flex flex-col my-[30%] items-center py-10 space-y-6 text-white`}>
+     <div className={`side px-1 flex flex-col my-[30%] items-center py-10 space-y-6 text-white`}>
             <Link to={'/dashboard'} onClick={()=>setcurrManu("Dashboard")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
                 <FaBook className={`${currManu === "Dashboard" ? `${anim ? 'icon' : ''} text-[35px]` : 'text-xl'}`} />
             </Link>

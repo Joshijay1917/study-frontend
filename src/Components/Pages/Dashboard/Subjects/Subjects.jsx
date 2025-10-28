@@ -14,8 +14,8 @@ const Subjects = ({setaddSubForm, data}) => {
             <h1 className="text-3xl mt-5 font-bold text-gray-800">Subjects</h1>
             {!data?.data || data?.data?.length === 0 && <p className='text-center pt-5'>No Subjects are available!</p>}
             {data?.data && data.data.map(sub => (
-                <div key={sub._id} onClick={() => handleClick(sub)} className='mt-5 cursor-pointer p-3 font-semibold relative pl-7 bg-[#5555] rounded-2xl'>
-                    <div className='absolute bg-gray-700 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
+                <div key={sub._id} onClick={() => handleClick(sub)} className='mt-5 cursor-pointer p-3 font-semibold relative pl-7 bg-[#2222] rounded-2xl'>
+                    <div className='absolute bg-blue-800 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
                     <p className='name text-xl overflow-clip'>{sub.name.replace(/\b\w/g, char => char.toUpperCase())}</p>
                     <div className='flex gap-3'>
                         <p>Sem: {sub.sem}</p>

@@ -69,14 +69,16 @@ const Photos = () => {
         <>
             <div className="flex-1 relative">
                 <div className="absolute inset-y-0 top-[12%] left-0 right-0 bg-white rounded-tl-[80px] rounded-tr-[0px] shadow-lg overflow-auto">
-                    <div className='p-7 bg-white'>
-                        <div className='my-5'>
-                        <h1 className='text-2xl font-bold text-gray-800'>{subject.name.toUpperCase()}</h1>
-                        <p className='font-medium text-[17px]'>{title}</p>
-                        </div>
-                        {data?.data && data.data.length > 0 && <div className='w-full flex justify-end'>
+                    <div className=' p-2 bg-white'>
+                        <div className='my-5 p-4 flex justify-between items-center'>
+                            <div>
+                        <h1 className='text-[17px] font-bold text-gray-800'>{subject.name.toUpperCase()}</h1>
+                        <p className='font-medium text-[13px]'>{title}</p>
+                            </div>
+                        {data?.data && data.data.length > 0 && <div className='text-xs'>
                             <button className='btn bg-red-500 text-white'>Download PDF</button>
                         </div>}
+                        </div>
                         <div className='flex flex-col gap-5'>
                             {data?.data && data.data.map(photo => (
                                 <img key={photo._id} src={photo.url} />

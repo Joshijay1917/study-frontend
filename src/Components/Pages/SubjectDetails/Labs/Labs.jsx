@@ -22,7 +22,7 @@ const Labs = ({ setlabform, setloading }) => {
       <div className='mt-10'>
         {data?.data && data.data.map(lab => (
         <div key={lab._id} onClick={()=>handleClick(lab)} className='mt-5 p-3 font-semibold cursor-pointer relative pl-7 bg-[#5555] rounded-2xl'>
-          <div className='absolute bg-gray-700 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
+          <div className='absolute bg-blue-800 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
           <p className='name'>{lab.name}</p>
         </div>
       ))}
