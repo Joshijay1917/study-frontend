@@ -31,8 +31,8 @@ const LatestSubjectDetails = () => {
     <>
       <div className="flex-1 relative">
         <div className="absolute inset-y-0 top-[12%] left-0 right-0 bg-white rounded-tl-[80px] rounded-tr-[0px] shadow-lg overflow-auto">
-          <div className='p-7 bg-white'>
-            <h1 className="text-2xl my-5 font-bold text-gray-800">{subject.name.toUpperCase().trim()}</h1>
+          <div className='p-5 bg-white'>
+            <h1 className="text-2xl px-2 my-5 font-bold text-gray-800">{subject.name.toUpperCase().trim()}</h1>
             <div className='flex gap-5 text-[14px]'>
               <p onClick={handleClick} className={`${require === "Notes" ? 'underline decoration-6 underline-offset-8 decoration-blue-600' : ""} cursor-pointer`}>Notes</p>
               <p onClick={handleClick} className={`${require === "Assignments" ? 'underline decoration-6 underline-offset-8 decoration-blue-600' : ""} cursor-pointer`}>Assignments</p>
