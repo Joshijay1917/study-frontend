@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useGetAllAssignmentsQuery } from '../../../../Redux/Features/ApiSlice'
 import { FaPlus } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 
 const Assignments = ({ setassForm, setloading }) => {
   const { subjectId } = useParams()
   const navigate = useNavigate()
   const { data, isLoading, error } = useGetAllAssignmentsQuery(subjectId)
+  const user = useSelector(state => (state.user.user))
 
   const handleClick = (ass) => {
     navigate(`/dashboard/${subjectId}/assignment/${ass._id}`)
@@ -34,10 +36,10 @@ const Assignments = ({ setassForm, setloading }) => {
           <p className='name text-sm text-red-700 font-medium'>Deadline: {dateFormate(ass.deadline)}</p>
         </div>
       ))}
-        <div className='flex flex-col gap-2 items-center mt-10'>
+        {user.username === 'admin' && <div className='flex flex-col gap-2 items-center mt-10'>
           <p className='font-bold text-xl'>Add Assignment</p>
           <button onClick={() => setassForm(true)} className='flex w-fit items-center justify-center bg-blue-400 px-10 p-2 rounded-2xl text-white'><FaPlus /> Add</button>
-        </div>
+        </div>}
       </div>
     </div>
   )

@@ -9,9 +9,11 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReAuth = async(args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
     console.log("res", result);
-
+    
     if(result?.data?.success) {
-        // api.dispatch(setCredentials({user: result.data.data}))
+        if(result.data.data.username) {
+            api.dispatch(setCredentials({user: result.data.data}))
+        }
         return result;
     }
     

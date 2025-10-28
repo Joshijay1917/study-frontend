@@ -1,8 +1,10 @@
 import { FaPlus } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const Subjects = ({setaddSubForm, data}) => {
     const navigate = useNavigate()
+    const user = useSelector(state => (state.user.user))
 
     const handleClick = (subject) => {
         navigate(`/dashboard/${subject._id}`)
@@ -23,10 +25,10 @@ const Subjects = ({setaddSubForm, data}) => {
                     </div>
                 </div>
             ))}
-            <div className='flex flex-col gap-2 items-center mt-10'>
+            {user.username === 'admin' && <div className='flex flex-col gap-2 items-center mt-10'>
                 <p className='font-bold text-xl'>Add Subjects</p>
                 <button onClick={() => setaddSubForm(true)} className='flex w-fit items-center justify-center bg-blue-400 px-10 p-2 rounded-2xl text-white'><FaPlus /> Add</button>
-            </div>
+            </div>}
         </div>
         </>
     )
