@@ -1,77 +1,61 @@
-import { useContext, useState } from 'react'
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import Dashboard from './Components/Pages/Dashboard/Dashboard'
-import Intro from './Components/Auth/Intro/Intro'
-import Login from './Components/Auth/Login/Login'
-import Register from './Components/Auth/Register/Register'
-import Options from './Components/Headers/Options/Options'
-import Navbar from './Components/Headers/Navbar/Navbar'
-import Menu from './Components/Headers/Menu/Menu'
-import { Store } from './context/Store'
-import Photos from './Components/Pages/Photos/Photos'
-import History from './Components/Pages/History/History'
-import AboutUs from './Components/Pages/AboutUs/AboutUs'
-import NotFound from './Components/Pages/NotFound/NotFound'
+import React, { useEffect, useState } from 'react'
 import "./App.css"
+import { Navigate, Route, Routes } from 'react-router-dom'
+import Intro from './Components/Authentication/Intro/Intro'
+import Login from './Components/Authentication/Login/Login'
+import Register from './Components/Authentication/Register/Register'
+import Loading from './Components/Pages/Loading/Loading'
+import { useCurrentUserQuery } from './Redux/Features/ApiSlice'
+import { useSelector } from 'react-redux'
+import Dashboard from './Components/Pages/Dashboard/Dashboard'
+import Navbar from './Components/Header/Navbar/Navbar'
+import Menu from './Components/Header/Menu/Menu'
+import SubjectDetails from './Components/Pages/SubjectDetails/SubjectDetails'
+import LatestUpdates from './Components/Pages/LatestUpdates/LatestUpdates'
+import AboutMe from './Components/Pages/AboutMe/AboutMe'
+import Photos from './Components/Pages/Photos/Photos'
 
-function App() {
-  const [currManu, setcurrManu] = useState("Dashboard")
-  const navigate = useNavigate()
-  const storeData = useContext(Store)
+const App = () => {
+  const { data, isLoading } = useCurrentUserQuery()
+  const [LoggedIn, setLoggedIn] = useState(false)
+  
+  useEffect(() => {
+    if(data) {
+      setLoggedIn(true)
+    }
+  }, [data])
+  
+  
+  const ProtectedLayout = ({children}) => {
+    return (
+      LoggedIn ? (
+      <>
+        <Navbar />
+        <div className="bg-zinc-800 min-h-screen flex">
+          <Menu />
+          {children}
+        </div>
+      </>
+    ) : (
+      <Navigate to="/login" replace />
+    )
+    )
+  }
 
   return (
+    <>
     <Routes>
-      <Route path='/' element={storeData.LoggedIn ? <Navigate to={'/dashboard'} /> : <Intro />} />
-      <Route path='/login' element={storeData.LoggedIn ? <Navigate to={'/dashboard'} /> : <Login setLoggedIn={storeData.setLoggedIn} />} />
-      <Route path='/register' element={storeData.LoggedIn ? <Navigate to={'/dashboard'} /> : <Register />} />
-      <Route path='/dashboard' element={
-        storeData.LoggedIn ? <>
-          <Navbar />
-          <div className='bg-zinc-800 min-h-screen flex'>
-            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
-            <Dashboard />
-          </div>
-        </> : <Navigate to={'/login'}/>
-      } />
-      <Route path='/dashboard/:subjectId' element={
-        storeData.LoggedIn ? <>
-          <Navbar />
-          <div className='bg-zinc-800 min-h-screen flex'>
-            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
-            <Options />
-          </div>
-        </> : <Navigate to={'/login'}/>
-      } />
-      <Route path='/dashboard/:subjectId/:detailId' element={
-        storeData.LoggedIn ? <>
-          <Navbar />
-          <div className='bg-zinc-800 min-h-screen flex'>
-            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
-            <Photos />
-          </div>
-        </> : <Navigate to={'/login'}/>
-      } />
-      <Route path='/history' element={
-        storeData.LoggedIn ? <>
-          <Navbar />
-          <div className='bg-zinc-800 min-h-screen flex'>
-            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
-            <History />
-          </div>
-        </> : <Navigate to={'/login'}/>
-      } />
-      <Route path='/about' element={
-        storeData.LoggedIn ? <>
-          <Navbar />
-          <div className='bg-zinc-800 min-h-screen flex'>
-            <Menu setcurrManu={setcurrManu} currManu={currManu}/>
-            <AboutUs />
-          </div>
-        </> : <Navigate to={'/login'}/>
-      } />
-      <Route path='*' element={<NotFound />} />
+      <Route path='/' element={LoggedIn ? <Navigate to={'/dashboard'}/> : <Intro />}/>
+      <Route path='/login' element={LoggedIn ? <Navigate to={'/dashboard'}/> : <Login setLoggedIn={setLoggedIn}/>}/>
+      <Route path='/register' element={LoggedIn ? <Navigate to={'/dashboard'}/> : <Register />}/>
+      <Route path='/dashboard' element={<ProtectedLayout><Dashboard /></ProtectedLayout>}/>
+      <Route path='/dashboard/:subjectId' element={<ProtectedLayout><SubjectDetails /></ProtectedLayout>}/>
+      <Route path='/dashboard/:subjectId/:type/:typeId' element={<ProtectedLayout><Photos /></ProtectedLayout>}/>
+      <Route path='/latestUpdate' element={<ProtectedLayout><LatestUpdates /></ProtectedLayout>}/>
+      <Route path='/aboutme' element={<ProtectedLayout><AboutMe /></ProtectedLayout>}/>
     </Routes>
-
+    {isLoading && <Loading />}
+    </>
   )
 }
 
