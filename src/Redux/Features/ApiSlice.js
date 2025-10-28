@@ -34,7 +34,7 @@ const baseQueryWithReAuth = async(args, api, extraOptions) => {
 
 export const ApiSlice = createApi({
     baseQuery: baseQueryWithReAuth,
-    tagTypes: ['Subjects', 'Notes', 'Assi', 'Labs'],
+    tagTypes: ['Subjects', 'Notes', 'Assi', 'Labs', 'NotePhotos', 'AssiPhotos', 'LabPhotos', 'LatestUpdates'],
     endpoints: (builder) => ({
         loginUser: builder.mutation({
             query: (form) => ({
@@ -72,34 +72,40 @@ export const ApiSlice = createApi({
             providesTags: ['Labs']
         }),
         getAllNotesPhotos: builder.query({
-            query: (typeId) => `/notes/photos/${typeId}`
+            query: (typeId) => `/notes/photos/${typeId}`,
+            providesTags: ['NotePhotos']
         }),
         getAllAssignmentPhotos: builder.query({
-            query: (typeId) => `/assignment/photos/${typeId}`
+            query: (typeId) => `/assignment/photos/${typeId}`,
+            providesTags: ['AssiPhotos']
         }),
         getAllLabsPhotos: builder.query({
-            query: (typeId) => `/labmanual/photos/${typeId}`
+            query: (typeId) => `/labmanual/photos/${typeId}`,
+            providesTags: ['LabPhotos']
         }),
         uploadNotePhoto: builder.mutation({
             query: (form) => ({
                 url: '/notes/upload',
                 method: 'POST',
                 body: form
-            })
+            }),
+            invalidatesTags: ['NotePhotos']
         }),
         uploadAssignmentPhoto: builder.mutation({
             query: (form) => ({
                 url: '/assignment/upload',
                 method: 'POST',
                 body: form
-            })
+            }),
+            invalidatesTags: ['AssiPhotos']
         }),
         uploadLabPhoto: builder.mutation({
             query: (form) => ({
                 url: '/lab/upload',
                 method: 'POST',
                 body: form
-            })
+            }),
+            invalidatesTags: ['LabPhotos']
         }),
         addSubject: builder.mutation({
             query: (form) => ({
@@ -132,6 +138,10 @@ export const ApiSlice = createApi({
                 body: form
             }),
             invalidatesTags: ['Labs']
+        }),
+        getLatestUpdates: builder.query({
+            query: () => '/latestUpdates/',
+            providesTags: ['LatestUpdates']
         })
     })
 })
@@ -152,5 +162,6 @@ export const {
     useAddSubjectMutation,
     useAddNoteMutation,
     useAddAssignmentMutation,
-    useAddLabManualMutation
+    useAddLabManualMutation,
+    useGetLatestUpdatesQuery
  } = ApiSlice

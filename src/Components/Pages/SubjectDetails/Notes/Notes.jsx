@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useGetAllNotesQuery, useGetAllSubjectsQuery } from '../../../../Redux/Features/ApiSlice'
+import { useGetAllNotesQuery } from '../../../../Redux/Features/ApiSlice'
 import Loading from '../../Loading/Loading'
 import { FaPlus } from 'react-icons/fa'
 
@@ -22,7 +22,7 @@ const Notes = ({ setnoteForm, setloading }) => {
       {error && <p className='text-red-500 text-center'>{data?.error?.message || "Failed to get subject!!"}</p>}
       <div className='mt-10'>
         {data?.data && data.data.map(note => (
-          <div key={note._id} onClick={() => handleClick(note)} className='mt-5 p-3 cursor-pointer font-semibold relative pl-7 bg-[#5555] rounded-2xl'>
+          <div key={note._id} onClick={() => handleClick(note)} className='mt-5 p-3 cursor-pointer font-semibold relative pl-7 bg-[#2222] rounded-2xl'>
             <div className='absolute bg-blue-800 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
             <p className='name'>{`Unit ${note.unit}: ${note.name}`}</p>
           </div>

@@ -14,6 +14,10 @@ import SubjectDetails from './Components/Pages/SubjectDetails/SubjectDetails'
 import LatestUpdates from './Components/Pages/LatestUpdates/LatestUpdates'
 import AboutMe from './Components/Pages/AboutMe/AboutMe'
 import Photos from './Components/Pages/Photos/Photos'
+import LatestSubjects from './Components/Pages/LatestUpdates/LatestSubjects/LatestSubjects'
+import LatestSubjectDetails from './Components/Pages/LatestUpdates/LatestSubjectDetails/LatestSubjectDetails'
+import LatestPhotos from './Components/Pages/LatestUpdates/LatestPhotos/LatestPhotos'
+import NotFound from './Components/Pages/NotFound/NotFound'
 
 const App = () => {
   const { data, isLoading } = useCurrentUserQuery()
@@ -48,11 +52,20 @@ const App = () => {
       <Route path='/' element={LoggedIn ? <Navigate to={'/dashboard'}/> : <Intro />}/>
       <Route path='/login' element={LoggedIn ? <Navigate to={'/dashboard'}/> : <Login setLoggedIn={setLoggedIn}/>}/>
       <Route path='/register' element={LoggedIn ? <Navigate to={'/dashboard'}/> : <Register />}/>
-      <Route path='/dashboard' element={<ProtectedLayout><Dashboard /></ProtectedLayout>}/>
-      <Route path='/dashboard/:subjectId' element={<ProtectedLayout><SubjectDetails /></ProtectedLayout>}/>
-      <Route path='/dashboard/:subjectId/:type/:typeId' element={<ProtectedLayout><Photos /></ProtectedLayout>}/>
-      <Route path='/latestUpdate' element={<ProtectedLayout><LatestUpdates /></ProtectedLayout>}/>
+      <Route path='/dashboard' element={<ProtectedLayout><Dashboard /></ProtectedLayout>}/>   {/* SHOW ALL SUBJECTS */}
+
+      <Route path='/dashboard/:subjectId' element={<ProtectedLayout><SubjectDetails /></ProtectedLayout>}/>  {/* SHOW ONE SUBJECT'S DETAIL */}
+      <Route path='/dashboard/:subjectId/:type/:typeId' element={<ProtectedLayout><Photos /></ProtectedLayout>}/> {/* SHOW ONE SUBJECT'S TYPE'S PHOTOS */}
+
+      <Route path='/latestUpdate' element={<ProtectedLayout><LatestUpdates /></ProtectedLayout>}/> {/* SHOW ALL UPDATES */}
+      <Route path='/latestUpdate/:updateId' element={<ProtectedLayout><LatestSubjects /></ProtectedLayout>}/> {/* SHOW SOME SUBJECTS */}
+
+      <Route path='/latestUpdate/:updateId/:subjectId' element={<ProtectedLayout><LatestSubjectDetails /></ProtectedLayout>}/> {/* SHOW ONE SUBJECT'S DETAIL */}
+      <Route path='/latestUpdate/:updateId/:subjectId/:type/:typeId' element={<ProtectedLayout><LatestPhotos /></ProtectedLayout>}/>  {/* SHOW ONE SUBJECT'S TYPE'S PHOTOS */}
+
       <Route path='/aboutme' element={<ProtectedLayout><AboutMe /></ProtectedLayout>}/>
+
+      <Route path='*' element={<NotFound />}/>
     </Routes>
     {isLoading && <Loading />}
     </>
