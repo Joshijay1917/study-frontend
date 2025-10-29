@@ -19,7 +19,7 @@ const Notes = ({ setnoteForm, setloading }) => {
 
   const handleDelete = async(note) => {
     try {
-      await deleteNote(note._id).unwrap()
+      await deleteNote({notesId:note._id}).unwrap()
     } catch (error) {
       console.error("Err:", error)
     }
@@ -38,7 +38,7 @@ const Notes = ({ setnoteForm, setloading }) => {
           <div key={note._id} onClick={() => handleClick(note)} className='mt-5 p-3 cursor-pointer flex items-center justify-between shadow-lg border border-gray-300 font-semibold relative pl-7 bg-[#2222] rounded-2xl'>
             <div className='absolute bg-blue-800 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
             <p className='name'>{`Unit ${note.unit}: ${note.name}`}</p>
-            {user.username === 'admin' && <MdDelete onClick={()=>handleDelete(note)} className='text-2xl text-red-400'/>}
+            {user.username === 'admin' && <button onClick={(e) => {e.stopPropagation();handleDelete(note)}}><MdDelete className='text-2xl z-10 text-red-400'/></button>}
           </div>
         ))}
         {user.username === 'admin' && <div className='flex flex-col gap-2 items-center mt-10'>

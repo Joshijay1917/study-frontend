@@ -24,7 +24,7 @@ const Assignments = ({ setassForm, setloading }) => {
 
   const handleDelete = async (ass) => {
     try {
-      await deleteAssignment(ass._id).unwrap()
+      await deleteAssignment({assignmentId:ass._id}).unwrap()
     } catch (error) {
       console.error("Err:", error)
     }
@@ -46,7 +46,7 @@ const Assignments = ({ setassForm, setloading }) => {
           <p className='name text-[18px] font-semibold'>{`Assignment - ${ass.number}`}</p>
           <p className='name text-sm text-red-700 font-medium'>Deadline: {dateFormate(ass.deadline)}</p>
           </div>
-          {user.username === 'admin' && <MdDelete onClick={() => handleDelete(ass)} className='text-2xl text-red-400'/>}
+          {user.username === 'admin' && <button onClick={(e) => {e.stopPropagation();handleDelete(ass)}}><MdDelete className='text-2xl z-10 text-red-400'/></button>}
         </div>
       ))}
         {user.username === 'admin' && <div className='flex flex-col gap-2 items-center mt-10'>

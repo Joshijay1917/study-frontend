@@ -3,8 +3,9 @@ import { MdDelete } from 'react-icons/md'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useDeleteSubjectMutation } from '../../../../Redux/Features/ApiSlice'
+import { useEffect } from 'react'
 
-const Subjects = ({setaddSubForm, data}) => {
+const Subjects = ({setaddSubForm, data, setLoading}) => {
     const navigate = useNavigate()
     const user = useSelector(state => (state.user.user))
     const [deleteSubject, deleteSubjectOptions] = useDeleteSubjectMutation()
@@ -15,11 +16,16 @@ const Subjects = ({setaddSubForm, data}) => {
 
     const handleDelete = async (sub) => {
         try {
-            await deleteSubject(sub._id).unwrap()
+            await deleteSubject({subjectId:sub._id}).unwrap()
         } catch (error) {
             console.error("Err:", error)
         }
     }
+
+    useEffect(() => {
+      setLoading(deleteSubjectOptions.isLoading)
+    }, [deleteSubjectOptions.isLoading])
+    
 
     return (
         <>
@@ -36,7 +42,7 @@ const Subjects = ({setaddSubForm, data}) => {
                         <p>Branch: {sub.branch}</p>
                     </div>
                     </div>
-                    {user.username === 'admin' && <MdDelete onClick={() => handleDelete(sub)} className='text-2xl text-red-400'/>}
+                    {user.username === 'admin' && <button onClick={(e) => {e.stopPropagation();handleDelete(sub)}}><MdDelete className='text-2xl z-10 text-red-400'/></button>}
                 </div>
             ))}
             {user.username === 'admin' && <div className='flex flex-col gap-2 items-center mt-10'>

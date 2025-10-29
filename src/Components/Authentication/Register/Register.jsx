@@ -80,23 +80,23 @@ const Register = () => {
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="username"><FaUser className='text-blue-400' /> Username</label>
-            <input className='bg-gray-800 w-[60%] p-3 rounded-2xl' type="text" placeholder='Username' name='username' onChange={handleChange} />
+            <input className='bg-gray-800 outline-0 w-[60%] p-3 rounded-2xl' type="text" placeholder='Username' name='username' onChange={handleChange} />
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="password"><FaLock className='text-blue-400' /> Password</label>
-            <input className='bg-gray-800 w-[60%] p-3 rounded-2xl' type="text" placeholder='Password' name='password' onChange={handleChange} />
+            <input className='bg-gray-800 outline-0 w-[60%] p-3 rounded-2xl' type="password" placeholder='Password' name='password' onChange={handleChange} />
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="phone"><FaPhone className='text-blue-400' /> Phone</label>
-            <input className='bg-gray-800 w-[60%] p-3 rounded-2xl' type="text" placeholder='Phone no.' name='phone' onChange={handleChange} />
+            <input className='bg-gray-800 outline-0 w-[60%] p-3 rounded-2xl' type="text" placeholder='Phone no.' name='phone' onChange={handleChange} />
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="email"><MdEmail className='text-blue-400' /> Email</label>
-            <input className='bg-gray-800 w-[60%] p-3 rounded-2xl' type="text" placeholder='Email' name='email' onChange={handleChange} />
+            <input className='bg-gray-800 outline-0 w-[60%] p-3 rounded-2xl' type="text" placeholder='Email' name='email' onChange={handleChange} />
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="sem"><RiBookLine className='text-blue-400' /> Sem</label>
-            <select className='bg-gray-800 p-3 rounded-2xl w-[60%]' name="sem" onChange={handleChange}>
+            <select className='bg-gray-800 outline-0 p-3 rounded-2xl w-[60%]' name="sem" onChange={handleChange}>
               <option value={0}>Select Sem</option>
               <option value={1}>1</option>
               <option value={2}>2</option>
@@ -110,7 +110,7 @@ const Register = () => {
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="branch"><FaCodeBranch className='text-blue-400' /> Branch</label>
-            <select className='bg-gray-800 p-3 rounded-2xl w-[60%]' name="branch" onChange={handleChange}>
+            <select className='bg-gray-800 outline-0 p-3 rounded-2xl w-[60%]' name="branch" onChange={handleChange}>
               <option value={0}>Select Branch</option>
               <option value={'CE'}>Computer</option>
               <option value={'IT'}>Information & Technology</option>
@@ -122,7 +122,7 @@ const Register = () => {
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="year"><HiAcademicCap className='text-blue-400' /> Year</label>
-            <select className='bg-gray-800 p-3 rounded-2xl w-[60%]' name="year" onChange={handleChange}>
+            <select className='bg-gray-800 outline-0 p-3 rounded-2xl w-[60%]' name="year" onChange={handleChange}>
               <option value={0}>Select Year</option>
               <option value={1}>1st</option>
               <option value={2}>2nd</option>
