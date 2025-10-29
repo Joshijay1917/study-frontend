@@ -53,6 +53,13 @@ export const ApiSlice = createApi({
                 }
             },
         }),
+        registerUser: builder.mutation({
+            query: (form) => ({
+                url: '/user/register',
+                method: 'POST',
+                body: form
+            })
+        }),
 
         currentUser: builder.query({
             query: () => '/user/curr-user'
@@ -181,6 +188,7 @@ export const ApiSlice = createApi({
 })
 
 export const { 
+    useRegisterUserMutation,
     useCurrentUserQuery,
     useLoginUserMutation,
     useGetAllSubjectsQuery,
