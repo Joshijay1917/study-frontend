@@ -25,7 +25,7 @@ const Labs = ({ setlabform, setloading }) => {
   }
 
   useEffect(() => {
-    setloading(isLoading);
+    setloading(isLoading || deleteLabmanualOptions.isLoading);
   }, [isLoading, setloading, deleteLabmanualOptions.isLoading]);
 
   return (

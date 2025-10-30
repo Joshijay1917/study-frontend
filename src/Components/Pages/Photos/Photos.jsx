@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import { useGetAllSubjectsQuery, useUploadAssignmentPhotoMutation, useUploadLabPhotoMutation, useUploadNotePhotoMutation } from '../../../Redux/Features/ApiSlice'
+import { useDeleteOnePhotoAssiMutation, useDeleteOnePhotoLabMutation, useDeleteOnePhotoNotesMutation, useGetAllSubjectsQuery } from '../../../Redux/Features/ApiSlice'
 import { useParams } from 'react-router-dom'
 import Loading from '../Loading/Loading'
 import { fetchSubjectData } from '../../../Redux/CustomHook/fetchSubjectData'
 import { getTypeDetails } from '../../../Redux/CustomHook/GetTypeDetails'
 import { useSelector } from 'react-redux'
+import { FaCloudUploadAlt } from 'react-icons/fa'
+import PhotosForm from '../../Forms/PhotosForm'
+import { MdDelete } from 'react-icons/md'
 
-async function uploadPhoto(type, formData, uploadNotePhoto, uploadAssignmentPhoto, uploadLabPhoto) {
-    if (type === "notes") return await uploadNotePhoto(formData)
-    if (type === "assignment") return await uploadAssignmentPhoto(formData)
-    if (type === "labmanual") return await uploadLabPhoto(formData)
+async function deletePhoto(type, deleteOnePhotoNotes, deleteOnePhotoAssi, deleteOnePhotoLab, photo) {
+    if (type === "notes") return await deleteOnePhotoNotes({publicId:photo.public_id})
+    if (type === "assignment") return await deleteOnePhotoAssi({publicId:photo.public_id})
+    if (type === "labmanual") return await deleteOnePhotoLab({publicId:photo.public_id})
 }
 
 const Photos = () => {
-    const [message, setmessage] = useState('')
-    const [file, setfile] = useState(null)
     const [title, settitle] = useState('')
+    const [photoForm, setphotoForm] = useState(false)
     const user = useSelector(state => (state.user.user))
     const { subjectId, type, typeId } = useParams()
     const { data, isLoading } = fetchSubjectData(type, typeId)
+    const [deleteOnePhotoNotes, deleteOnePhotoNotesOptions] = useDeleteOnePhotoNotesMutation()
+    const [deleteOnePhotoAssi, deleteOnePhotoAssiOptions] = useDeleteOnePhotoAssiMutation()
+    const [deleteOnePhotoLab, deleteOnePhotoLabOptions] = useDeleteOnePhotoLabMutation()
     const subjects = useGetAllSubjectsQuery()
-    const [uploadNotePhoto, noteOptions] = useUploadNotePhotoMutation()
-    const [uploadAssignmentPhoto, assiOptions] = useUploadAssignmentPhotoMutation()
-    const [uploadLabPhoto, labOptions] = useUploadLabPhotoMutation()
     const subject = subjects.data.data.find(sub => sub._id === subjectId)
     let typeDetail = getTypeDetails(type, subjectId);
 
@@ -34,38 +36,15 @@ const Photos = () => {
         }
     }, [data])
 
-    console.log("tit=", title);
-
-    const handleChange = (e) => {
-        const photo = e.target.files[0]
-        if (photo) {
-            setfile(photo)
-        }
-    }
-
-    useEffect(() => {
-        if (file) {
-            upload()
-        }
-    }, [file])
-
-    const upload = async () => {
-        if (!file) {
-            setmessage("No files found")
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append(`${type.toLocaleLowerCase().trim()}Id`, typeId)
-        formData.append('photo', file)
-
+    const photoDelete = async (photo) => {
         try {
-            await uploadPhoto(type, formData, uploadNotePhoto, uploadAssignmentPhoto, uploadLabPhoto)
+            await deletePhoto(type, deleteOnePhotoNotes, deleteOnePhotoAssi, deleteOnePhotoLab, photo)
         } catch (error) {
-            setmessage(error?.data?.message || "Failed to upload photo!")
-            console.error("Failed to upload photo! : ", error)
+            console.error("failed to delete photo! Err:", error)
         }
     }
+
+    console.log("tit=", title);
 
     return (
         <>
@@ -83,24 +62,20 @@ const Photos = () => {
                         </div>
                         <div className='flex flex-col gap-5'>
                             {data?.data && data.data.map(photo => (
-                                <img key={photo._id} src={photo.url} />
+                                <div className='relative border border-gray-400' key={photo._id}>
+                                    {user.username === 'admin' && <MdDelete onClick={()=>photoDelete(photo)} className='text-3xl absolute right-0 m-3 z-10 text-red-500' />}
+                                    <img src={photo.url} />
+                                </div>
                             ))}
                         </div>
-                        {user.username === 'admin' && <> <input id='takePhoto' onChange={handleChange} type="file" capture="environment" className='hidden' />
-                            <label htmlFor="takePhoto">
-                                {/* <img width={100} height={100} className='fixed bottom-0 rounded-full m-5 right-0 z-30' src='https://static.vecteezy.com/system/resources/previews/045/792/293/original/camera-icon-simple-icon-quality-interface-vector.jpg' alt="Camera" /> */}
-                                <img width={100} height={100} className='fixed bottom-0 rounded-full m-5 right-0 z-30' src='../../../camera-icon.jpg' alt="Camera" />
-                            </label></>}
+                        {user.username === 'admin' && !photoForm && <div onClick={() => setphotoForm(true)} className='fixed bg-gray-300 p-3 m-4 rounded-full bottom-0 right-0'>
+                            <FaCloudUploadAlt className='text-6xl text-blue-500' />
+                        </div>}
                     </div>
                 </div>
             </div>
-            {(noteOptions.isLoading || assiOptions.isLoading || labOptions.isLoading) && <div className='fixed top-0 w-full h-full bg-black/50 flex justify-center items-center text-white font-bold text-3xl'>
-                <p>Uploading...</p>
-            </div>}
-            {message && <div className='fixed top-0 w-full h-full bg-black/50 flex justify-center items-center font-bold text-xl'>
-                <p className='p-3 bg-white rounded-2xl'>{message}</p>
-            </div>}
-            {isLoading && <Loading />}
+            {photoForm && <PhotosForm setphotoForm={setphotoForm} />}
+            {(isLoading || deleteOnePhotoNotesOptions.isLoading || deleteOnePhotoAssiOptions.isLoading || deleteOnePhotoLabOptions.isLoading) && <Loading />}
         </>
     )
 }

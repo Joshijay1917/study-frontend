@@ -31,7 +31,7 @@ const Assignments = ({ setassForm, setloading }) => {
   }
 
   useEffect(() => {
-    setloading(isLoading);
+    setloading(isLoading || deleteAssignmentOptions.isLoading);
   }, [isLoading, setloading, deleteAssignmentOptions.isLoading]);
 
   return (

@@ -6,10 +6,12 @@ import { useLoginUserMutation } from '../../../Redux/Features/ApiSlice'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../../../Redux/Features/UserSlice'
 import Loading from '../../Pages/Loading/Loading'
+import { IoEye, IoEyeOff } from 'react-icons/io5'
 
 const Login = ({ setLoggedIn }) => {
   const [loginUser, { data, isLoading, isError }] = useLoginUserMutation()
   const navigate = useNavigate()
+  const [showPassword, setshowPassword] = useState(false)
   const [error, seterror] = useState('')
   const [form, setform] = useState({
     username: '',
@@ -77,7 +79,10 @@ const Login = ({ setLoggedIn }) => {
         </div>
         <div className='flex gap-3 mx-auto items-center'>
           <label className='flex items-center gap-3' htmlFor="password"><FaLock className='text-blue-400 text-lg' /> Password</label>
-          <input onChange={handleChange} className='bg-gray-800 outline-0 p-3 w-3/4 rounded-2xl' type="password" name='password' placeholder='Password' id='password' />
+          <div className='relative flex items-center'>
+          <input onChange={handleChange} className='bg-gray-800 outline-0 p-3 rounded-2xl' type={showPassword ? "text" : "password"} name='password' placeholder='Password' id='password' />
+          {showPassword ? <IoEyeOff onClick={()=>setshowPassword(false)} className='absolute text-gray-300 right-[15px] text-xl'/> : <IoEye onClick={() => setshowPassword(true)} className='absolute text-gray-300 right-[15px] text-xl'/>}
+          </div>
         </div>
         {error && <p className='text-red-400 font-semibold'>{error}</p>}
         <button type='submit' className='bg-blue-400 btn p-2 px-6 font-bold rounded-2xl flex items-center gap-3 text-gray-200'><ImEnter className='text-xl mt-1' /> Login</button>

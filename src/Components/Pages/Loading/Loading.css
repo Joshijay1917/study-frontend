@@ -1,5 +1,5 @@
 .rotate {
-    animation: rotateLogo 1.7s infinite ease-in-out;
+    animation: rotateLogo 1s infinite ease-in-out;
 }
 
 @keyframes rotateLogo {

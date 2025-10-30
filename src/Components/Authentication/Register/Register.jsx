@@ -6,6 +6,7 @@ import { FaCodeBranch, FaLock, FaPhone, FaUser } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
 import { RiBookLine } from 'react-icons/ri'
 import { HiAcademicCap } from 'react-icons/hi'
+import { IoEye, IoEyeOff } from 'react-icons/io5'
 
 const Register = () => {
   const [registerUser, { isLoading }] = useRegisterUserMutation()
@@ -20,6 +21,7 @@ const Register = () => {
   })
   const formRef = useRef();
   const navigate = useNavigate()
+  const [showPassword, setshowPassword] = useState(false)
   const [err, seterr] = useState('')
 
   const handleChange = (e) => {
@@ -84,7 +86,10 @@ const Register = () => {
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="password"><FaLock className='text-blue-400' /> Password</label>
-            <input className='bg-gray-800 outline-0 w-[60%] p-3 rounded-2xl' type="password" placeholder='Password' name='password' onChange={handleChange} />
+            <div className='outline-0 w-[60%] relative flex items-center rounded-2xl'>
+            <input className='bg-gray-800 outline-0 w-full p-3 rounded-2xl' type={showPassword ? "text" : "password"} placeholder='Password' name='password' onChange={handleChange} />
+            {showPassword ? <IoEyeOff onClick={()=>setshowPassword(false)} className='absolute text-gray-300 right-[15px] text-xl'/> : <IoEye onClick={() => setshowPassword(true)} className='absolute text-gray-300 right-[15px] text-xl'/>}
+            </div>
           </div>
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="phone"><FaPhone className='text-blue-400' /> Phone</label>

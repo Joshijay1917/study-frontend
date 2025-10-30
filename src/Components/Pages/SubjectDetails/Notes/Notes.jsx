@@ -26,7 +26,7 @@ const Notes = ({ setnoteForm, setloading }) => {
   }
 
   useEffect(() => {
-    setloading(isLoading);
+    setloading(isLoading || deleteNoteOptions.isLoading);
   }, [isLoading, setloading, deleteNoteOptions.isLoading]);
 
   return (

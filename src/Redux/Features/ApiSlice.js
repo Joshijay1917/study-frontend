@@ -183,7 +183,31 @@ export const ApiSlice = createApi({
                 body: labmanualId
             }),
             invalidatesTags: ['Labs']
-        })
+        }),
+        deleteOnePhotoNotes: builder.mutation({
+            query: (publicId) => ({
+                url: '/notes/photo/delete',
+                method: 'DELETE',
+                body: publicId
+            }),
+            invalidatesTags: ['NotePhotos']
+        }),
+        deleteOnePhotoAssi: builder.mutation({
+            query: (publicId) => ({
+                url: '/assignment/photo/delete',
+                method: 'DELETE',
+                body: publicId
+            }),
+            invalidatesTags: ['AssiPhotos']
+        }),
+        deleteOnePhotoLab: builder.mutation({
+            query: (publicId) => ({
+                url: '/labmanual/photo/delete',
+                method: 'DELETE',
+                body: publicId
+            }),
+            invalidatesTags: ['LabPhotos']
+        }),
     })
 })
 
@@ -209,5 +233,8 @@ export const {
     useDeleteSubjectMutation,
     useDeleteNoteMutation,
     useDeleteAssignmentMutation,
-    useDeleteLabmanualMutation
+    useDeleteLabmanualMutation,
+    useDeleteOnePhotoNotesMutation,
+    useDeleteOnePhotoAssiMutation,
+    useDeleteOnePhotoLabMutation
  } = ApiSlice
