@@ -115,7 +115,14 @@ const PhotosForm = ({ setphotoForm }) => {
                             </label>
                             {photos?.length !== 0 && <IoSend onClick={() => upload()} className='bg-green-600 p-3 text-5xl text-white rounded-2xl' />}
                         </div>
-                        {photos?.length === 0 && <button className='bg-red-500 w-full flex justify-center items-center gap-2 font-semibold p-3 rounded-2xl text-white'><BiSolidFilePdf className='text-2xl rounded-lg' /> Upload Pdf</button>}
+                        {photos?.length === 0 && <div>
+                            <input id='uploadPdf' className='hidden' onChange={handleChange} type="file"/>
+                            <label htmlFor="uploadPdf" className='w-full'>
+                                <div className='bg-red-500 w-full flex justify-center items-center gap-2 font-semibold p-3 rounded-2xl text-white'>
+                                    <BiSolidFilePdf className='text-2xl rounded-lg' /> Upload Pdf
+                                </div>
+                            </label>
+                        </div>}
                     </div>
                 </div>
             </div>
