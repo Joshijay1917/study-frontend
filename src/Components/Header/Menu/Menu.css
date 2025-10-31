@@ -26,19 +26,19 @@
 
 @keyframes In {
     0% {
-        top: 18vh;
+        left: -50px;
     }
     100% {
-        top: 29vh;
+        left: 5px;
     }
 }
 
 @keyframes Out {
     0% {
-        top: 29vh;
+        left: 5px;
     }
     100% {
-        top: 18vh;
+        left: -50px;
     }
 }
 

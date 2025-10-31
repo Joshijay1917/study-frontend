@@ -24,19 +24,19 @@ const Menu = () => {
 
     useEffect(() => {
         let timeinterval
-        if(showBackBtn) {
+        if(!showBackBtn) {
             timeinterval = setTimeout(() => {
-                setBtnAnim(true)
+                setBtnAnim(false)
             }, 1200);
         } else {
-            setBtnAnim(false)
+            setBtnAnim(true)
         }
         return () => clearTimeout(timeinterval)
     }, [showBackBtn])
 
   return (
-     <div className={`${showBackBtn ? "in" : "out"} gap-5 top-[18vh] relative px-1 flex flex-col items-center py-10 text-white`}>
-            {btnAnim && <button onClick={()=>navigate(-1)} className="w-12 icon h-12 bg-white/20 rounded-full flex items-center justify-center">
+     <div className={`gap-5 top-[18vh] relative px-1 flex flex-col items-center py-10 text-white`}>
+            {btnAnim && <button onClick={()=>navigate(-1)} className={`w-12 in ${!showBackBtn && "out"} absolute top-[-23px] icon h-12 bg-white/20 rounded-full flex items-center justify-center`}>
                 <IoMdArrowBack className={`side text-[30px]`} />
             </button>}
             <Link to={'/dashboard'} onClick={()=>setcurrManu("Dashboard")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
