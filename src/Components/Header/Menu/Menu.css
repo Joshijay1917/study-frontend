@@ -1,24 +1,55 @@
-.side{
-    animation: side 1s ease-in-out;
+.side {
+    animation: side 1s ease-in-out,
 }
-.icon{
-    animation: icon 0.2s ease-in-out;
+
+.icon {
+    animation: icon 0.5s ease-in-out;
+}
+
+.in {
+    animation: In 1.2s ease-in-out;
+}
+
+.out {
+    animation: Out 1.2s ease-in-out;
 }
 
 @keyframes side {
-    0%{
+    0% {
         width: 0;
     }
+
     100% {
         width: 60px;
     }
 }
 
-@keyframes icon {
-    0%{
-        font-size: 20px;
+@keyframes In {
+    0% {
+        margin-top: 25%;
     }
     100% {
+        margin-top: 42%;
+    }
+}
+
+@keyframes Out {
+    0% {
+        margin-top: 42%;
+    }
+    100% {
+        margin-top: 25%;
+    }
+}
+
+@keyframes icon {
+    0% {
+        font-size: 20px;
+        opacity: 0;
+    }
+
+    100% {
         font-size: 35px;
+        opacity: 1;
     }
 }
