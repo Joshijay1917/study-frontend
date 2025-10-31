@@ -6,9 +6,10 @@ import { useUploadAssignmentPhotoMutation, useUploadLabPhotoMutation, useUploadN
 import { BiSolidFilePdf } from 'react-icons/bi'
 import { useParams } from 'react-router-dom'
 import * as pdfjsLib from "pdfjs-dist/build/pdf";
+import pdfWorker from "pdfjs-dist/build/pdf.worker?url";
 
 // ✅ Fix for React (Vite or CRA)
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 async function uploadPhoto(type, formData, uploadNotePhoto, uploadAssignmentPhoto, uploadLabPhoto) {
     if (type === "notes") return await uploadNotePhoto(formData)
@@ -64,7 +65,7 @@ const PhotosForm = ({ setphotoForm }) => {
                 setphotos([...extractedPhotos])
                 setmessage('')
             } catch (error) {
-                console.error("PDF extraction error:", err);
+                console.error("PDF extraction error:", error);
                 setmessage("Failed to extract images from PDF!");
             }
         } else {
