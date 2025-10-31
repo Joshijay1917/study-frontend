@@ -104,7 +104,7 @@ const PhotosForm = ({ setphotoForm }) => {
                             key={i}
                             src={URL.createObjectURL(photo)}
                             alt={`Captured ${i + 1}`}
-                            className="w-full h-[75vh] snap-center my-3 rounded-lg border border-gray-500"
+                            className="w-full h-full snap-center my-3 rounded-lg border border-gray-500"
                         />
                     ))}</div>}
                     <div className='flex flex-col gap-3'>
