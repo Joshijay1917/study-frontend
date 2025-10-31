@@ -26,19 +26,19 @@
 
 @keyframes In {
     0% {
-        margin-top: 25%;
+        top: 18vh;
     }
     100% {
-        margin-top: 42%;
+        top: 29vh;
     }
 }
 
 @keyframes Out {
     0% {
-        margin-top: 42%;
+        top: 29vh;
     }
     100% {
-        margin-top: 25%;
+        top: 18vh;
     }
 }
 

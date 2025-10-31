@@ -35,7 +35,7 @@ const Menu = () => {
     }, [showBackBtn])
 
   return (
-     <div className={`${showBackBtn ? "in" : "out"} gap-5 my-[25%] px-1 flex flex-col items-center py-10 text-white`}>
+     <div className={`${showBackBtn ? "in" : "out"} gap-5 top-[18vh] relative px-1 flex flex-col items-center py-10 text-white`}>
             {btnAnim && <button onClick={()=>navigate(-1)} className="w-12 icon h-12 bg-white/20 rounded-full flex items-center justify-center">
                 <IoMdArrowBack className={`side text-[30px]`} />
             </button>}
