@@ -79,8 +79,8 @@ const Login = ({ setLoggedIn }) => {
         </div>
         <div className='flex gap-3 mx-auto items-center'>
           <label className='flex items-center gap-3' htmlFor="password"><FaLock className='text-blue-400 text-lg' /> Password</label>
-          <div className='relative flex items-center'>
-          <input onChange={handleChange} className='bg-gray-800 outline-0 p-3 rounded-2xl' type={showPassword ? "text" : "password"} name='password' placeholder='Password' id='password' />
+          <div className='relative w-3/4 flex items-center'>
+          <input onChange={handleChange} className='bg-gray-800 outline-0 w-full p-3 rounded-2xl' type={showPassword ? "text" : "password"} name='password' placeholder='Password' id='password' />
           {showPassword ? <IoEyeOff onClick={()=>setshowPassword(false)} className='absolute text-gray-300 right-[15px] text-xl'/> : <IoEye onClick={() => setshowPassword(true)} className='absolute text-gray-300 right-[15px] text-xl'/>}
           </div>
         </div>
