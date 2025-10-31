@@ -63,7 +63,7 @@ const Photos = () => {
                         <div className='flex flex-col gap-5'>
                             {data?.data && data.data.map(photo => (
                                 <div className='relative border border-gray-400' key={photo._id}>
-                                    {user.username === 'admin' && <MdDelete onClick={()=>photoDelete(photo)} className='text-3xl absolute right-0 m-3 z-10 text-red-500' />}
+                                    {user.username === 'admin' && <MdDelete onClick={()=>photoDelete(photo)} className='text-3xl absolute right-0 m-3 text-red-500' />}
                                     <img src={photo.url} />
                                 </div>
                             ))}

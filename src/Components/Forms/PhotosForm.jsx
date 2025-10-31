@@ -3,9 +3,12 @@ import { FaCamera } from 'react-icons/fa'
 import { IoSend } from 'react-icons/io5'
 import { MdCancel } from 'react-icons/md'
 import { useUploadAssignmentPhotoMutation, useUploadLabPhotoMutation, useUploadNotePhotoMutation } from '../../Redux/Features/ApiSlice'
-import { TbPdf } from 'react-icons/tb'
 import { BiSolidFilePdf } from 'react-icons/bi'
 import { useParams } from 'react-router-dom'
+import * as pdfjsLib from "pdfjs-dist/build/pdf";
+
+// ✅ Fix for React (Vite or CRA)
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
 
 async function uploadPhoto(type, formData, uploadNotePhoto, uploadAssignmentPhoto, uploadLabPhoto) {
     if (type === "notes") return await uploadNotePhoto(formData)
@@ -13,18 +16,59 @@ async function uploadPhoto(type, formData, uploadNotePhoto, uploadAssignmentPhot
     if (type === "labmanual") return await uploadLabPhoto(formData)
 }
 
+async function extractImagesFromPDF(file, onProgress) {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const images = [];
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 2 });
+
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({ canvasContext: context, viewport }).promise;
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+        const blob = await fetch(dataUrl).then((res) => res.blob());
+        const imageFile = new File([blob], `page_${i}.jpg`, { type: "image/jpeg" });
+
+        onProgress(Math.round((i / pdf.numPages) * 100))
+
+        images.push(imageFile);
+    }
+
+    return images;
+}
+
 const PhotosForm = ({ setphotoForm }) => {
     const { type, typeId } = useParams()
     const [photos, setphotos] = useState([])
     const [message, setmessage] = useState('')
+    const [Progress, setProgress] = useState(0)
     const [uploadNotePhoto, noteOptions] = useUploadNotePhotoMutation()
     const [uploadAssignmentPhoto, assiOptions] = useUploadAssignmentPhotoMutation()
     const [uploadLabPhoto, labOptions] = useUploadLabPhotoMutation()
 
-    const handleChange = (e) => {
-        const photo = e.target.files[0]
-        if (photo) {
-            setphotos(prev => [...prev, photo])
+    const handleChange = async (e) => {
+        const file = e.target.files[0]
+        if (!file) return;
+
+        if (file.type === "application/pdf") {
+            setmessage("Extracting photos from PDF...")
+            try {
+                const extractedPhotos = await extractImagesFromPDF(file, (p) => setProgress(p));
+                setphotos([...extractedPhotos])
+                setmessage('')
+            } catch (error) {
+                console.error("PDF extraction error:", err);
+                setmessage("Failed to extract images from PDF!");
+            }
+        } else {
+            setphotos(prev => [...prev, file])
         }
     }
 
@@ -64,14 +108,14 @@ const PhotosForm = ({ setphotoForm }) => {
                         />
                     ))}</div>}
                     <div className='flex flex-col gap-3'>
-                        <input id='takePhoto' onChange={handleChange} type="file" capture="environment" className='hidden' name='photos' multiple/>
+                        <input id='takePhoto' onChange={handleChange} type="file" capture="environment" className='hidden' name='photos' multiple />
                         <div className='flex gap-3 items-center'>
                             <label htmlFor="takePhoto" className='w-full'>
                                 <div className='bg-green-600 text-center flex justify-center items-center gap-3 w-full font-semibold p-3 rounded-2xl text-white'><FaCamera /> Take Photos</div>
                             </label>
                             {photos?.length !== 0 && <IoSend onClick={() => upload()} className='bg-green-600 p-3 text-5xl text-white rounded-2xl' />}
                         </div>
-                        {photos?.length === 0 && <button className='bg-red-500 w-full flex justify-center items-center gap-2 font-semibold p-3 rounded-2xl text-white'><BiSolidFilePdf className='text-2xl rounded-lg'/> Upload Pdf</button>}
+                        {photos?.length === 0 && <button className='bg-red-500 w-full flex justify-center items-center gap-2 font-semibold p-3 rounded-2xl text-white'><BiSolidFilePdf className='text-2xl rounded-lg' /> Upload Pdf</button>}
                     </div>
                 </div>
             </div>
@@ -79,7 +123,15 @@ const PhotosForm = ({ setphotoForm }) => {
                 <p>Uploading...</p>
             </div>}
             {message && <div className='fixed top-0 w-full h-full bg-black/50 flex justify-center items-center font-bold text-xl'>
-                <p className='p-3 bg-white rounded-2xl'>{message}</p>
+                <div className='bg-white p-3 rounded-2xl'>
+                    <p>{message}</p>
+                    <div className="w-full bg-gray-200 rounded-full h-4 my-3">
+                        <div
+                            className="bg-blue-500 h-4 rounded-full transition-all duration-200"
+                            style={{ width: `${Progress}%` }}
+                        />
+                    </div>
+                </div>
             </div>}
         </>
     )
