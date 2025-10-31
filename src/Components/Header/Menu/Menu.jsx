@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { FaBook, FaHistory, FaUser } from 'react-icons/fa'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './Menu.css'
 import { IoMdArrowBack } from 'react-icons/io'
 
 const Menu = () => {
     const [anim, setanim] = useState(false)
+    const navigate = useNavigate()
     const [currManu, setcurrManu] = useState("Dashboard")
     const location = useLocation()
     const [btnAnim, setBtnAnim] = useState(false)
@@ -15,8 +16,8 @@ const Menu = () => {
             setanim(true)
         }, 1000);
 
-        return () => clearInterval(timeinterval)
-    }, [anim])
+        return () => clearTimeout(timeinterval)
+    }, [])
 
     const hideBackBtnRoutes = ['/dashboard', '/latestUpdate', '/aboutme']
     const showBackBtn = !hideBackBtnRoutes.includes(location.pathname)
@@ -30,14 +31,14 @@ const Menu = () => {
         } else {
             setBtnAnim(false)
         }
-        return () => clearInterval(timeinterval)
+        return () => clearTimeout(timeinterval)
     }, [showBackBtn])
 
   return (
      <div className={`${showBackBtn ? "in" : "out"} gap-5 my-[25%] px-1 flex flex-col items-center py-10 text-white`}>
-            {btnAnim && <Link to={-1} onClick={()=>setcurrManu("Dashboard")} className="w-12 icon h-12 bg-white/20 rounded-full flex items-center justify-center">
+            {btnAnim && <button onClick={()=>navigate(-1)} className="w-12 icon h-12 bg-white/20 rounded-full flex items-center justify-center">
                 <IoMdArrowBack className={`side text-[30px]`} />
-            </Link>}
+            </button>}
             <Link to={'/dashboard'} onClick={()=>setcurrManu("Dashboard")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
                 <FaBook className={`${currManu === "Dashboard" ? `text-[35px]` : 'text-xl'} icon`} />
             </Link>
