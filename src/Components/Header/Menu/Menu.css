@@ -26,7 +26,8 @@
 
 @keyframes In {
     0% {
-        left: -50px;
+        /* left: -50px; */
+        left: 70px;
     }
     100% {
         left: 5px;
