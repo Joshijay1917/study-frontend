@@ -24,7 +24,7 @@ const generatePDF = async (data, subject, title, onProgress, setIsGenerating) =>
     const photo = data.data[i];
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = photo.url.replace("http://", "https://");
+    img.src = photo.url.replace("http://", "https://").replace("/upload/", "/upload/f_auto,q_auto,w_1080/");
 
     await new Promise((resolve) => {
       img.onload = () => {
@@ -116,7 +116,7 @@ const Photos = () => {
                             {data?.data && data.data.map(photo => (
                                 <div className='relative border border-gray-400' key={photo._id}>
                                     {user.username === 'admin' && <MdDelete onClick={() => photoDelete(photo)} className='text-3xl absolute right-0 m-3 text-red-500' />}
-                                    <img src={photo.url} />
+                                    <img src={photo.url.replace("/upload/", "/upload/f_auto,q_auto/")} />
                                 </div>
                             ))}
                         </div>
