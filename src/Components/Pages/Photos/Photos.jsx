@@ -24,7 +24,7 @@ const generatePDF = async (data, subject, title, onProgress, setIsGenerating) =>
     const photo = data.data[i];
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = photo.url;
+    img.src = photo.url.replace("http://", "https://");
 
     await new Promise((resolve) => {
       img.onload = () => {
