@@ -49,9 +49,15 @@ export const ApiSlice = createApi({
                     const { data } = await queryFulfilled
                     dispatch(setCredentials(data.data))
                 } catch (error) {
-                    console.error("Login failed!!", error)
+                    console.error("Login failed!! Err:", error)
                 }
             },
+        }),
+        logoutUser: builder.mutation({
+            query: () => ({
+                url: '/user/logout',
+                method: 'POST'
+            })
         }),
         registerUser: builder.mutation({
             query: (form) => ({
@@ -215,6 +221,7 @@ export const {
     useRegisterUserMutation,
     useCurrentUserQuery,
     useLoginUserMutation,
+    useLogoutUserMutation,
     useGetAllSubjectsQuery,
     useGetAllNotesQuery,
     useGetAllAssignmentsQuery,

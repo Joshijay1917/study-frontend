@@ -35,18 +35,18 @@ const Menu = () => {
     }, [showBackBtn])
 
   return (
-     <div className={`gap-5 top-[18vh] relative px-1 flex flex-col items-center py-10 text-white`}>
+     <div className={`gap-5 h-[82vh] top-[18vh] relative px-1 flex flex-col items-center py-10 text-white`}>
             {btnAnim && <button onClick={()=>navigate(-1)} className={`w-12 in ${!showBackBtn && "out"} absolute top-[-23px] icon h-12 bg-white/20 rounded-full flex items-center justify-center`}>
                 <IoMdArrowBack className={`side text-[30px]`} />
             </button>}
             <Link to={'/dashboard'} onClick={()=>setcurrManu("Dashboard")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaBook className={`${currManu === "Dashboard" ? `text-[35px]` : 'text-xl'} icon`} />
+                <FaBook className={`${currManu === "Dashboard" ? `text-[35px]` : 'text-xl'}`} />
             </Link>
             <Link to={'/latestUpdate'} onClick={()=>setcurrManu("History")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaHistory className={`${currManu === "History" ? `text-[35px]` : 'text-xl'} icon`} />
+                <FaHistory className={`${currManu === "History" ? `text-[35px]` : 'text-xl'}`} />
             </Link>
             <Link to={'/aboutme'} onClick={()=>setcurrManu("About")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <FaUser className={`${currManu === "About" ? `text-[35px]` : 'text-xl'} icon`} />
+                <FaUser className={`${currManu === "About" ? `text-[35px]` : 'text-xl'}`} />
             </Link>
         </div>
   )

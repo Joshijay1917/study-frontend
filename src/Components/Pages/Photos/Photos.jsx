@@ -8,16 +8,68 @@ import { useSelector } from 'react-redux'
 import { FaCloudUploadAlt } from 'react-icons/fa'
 import PhotosForm from '../../Forms/PhotosForm'
 import { MdDelete } from 'react-icons/md'
+import { jsPDF } from "jspdf";
+import { BiSolidFilePdf } from 'react-icons/bi'
+
+const generatePDF = async (data, subject, title, onProgress, setIsGenerating) => {
+  if (!data?.data?.length) return;
+
+  setIsGenerating(true);
+
+  const mmPerPx = 0.264583; // 1px ≈ 0.264583 mm
+
+  let doc = null;
+
+  for (let i = 0; i < data.data.length; i++) {
+    const photo = data.data[i];
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = photo.url;
+
+    await new Promise((resolve) => {
+      img.onload = () => {
+        // Convert image dimensions to mm
+        const pageWidth = img.width * mmPerPx;
+        const pageHeight = img.height * mmPerPx;
+
+        // Create a new page if not first
+        if (i === 0) {
+          doc = new jsPDF({
+            orientation: pageWidth > pageHeight ? "l" : "p",
+            unit: "mm",
+            format: [pageWidth, pageHeight],
+          });
+        } else {
+          doc.addPage([pageWidth, pageHeight]);
+        }
+
+        // Add image covering the entire page
+        doc.addImage(img, "JPEG", 0, 0, pageWidth, pageHeight);
+
+        // Progress update
+        onProgress(Math.round(((i + 1) / data.data.length) * 100));
+
+        resolve();
+      };
+    });
+  }
+
+  setIsGenerating(false);
+
+  if (doc) doc.save(`${subject.name}-${title}.pdf`);
+};
 
 async function deletePhoto(type, deleteOnePhotoNotes, deleteOnePhotoAssi, deleteOnePhotoLab, photo) {
-    if (type === "notes") return await deleteOnePhotoNotes({publicId:photo.public_id})
-    if (type === "assignment") return await deleteOnePhotoAssi({publicId:photo.public_id})
-    if (type === "labmanual") return await deleteOnePhotoLab({publicId:photo.public_id})
+    if (type === "notes") return await deleteOnePhotoNotes({ publicId: photo.public_id })
+    if (type === "assignment") return await deleteOnePhotoAssi({ publicId: photo.public_id })
+    if (type === "labmanual") return await deleteOnePhotoLab({ publicId: photo.public_id })
 }
 
 const Photos = () => {
     const [title, settitle] = useState('')
     const [photoForm, setphotoForm] = useState(false)
+    const [isGenerating, setIsGenerating] = useState(false)
+    const [progress, setprogress] = useState(0)
     const user = useSelector(state => (state.user.user))
     const { subjectId, type, typeId } = useParams()
     const { data, isLoading } = fetchSubjectData(type, typeId)
@@ -53,17 +105,17 @@ const Photos = () => {
                     <div className=' p-2 bg-white'>
                         <div className='my-5 p-4 flex justify-between items-center'>
                             <div>
-                                <h1 className='text-[17px] font-bold text-gray-800'>{subject.name.toUpperCase()}</h1>
-                                <p className='font-medium text-[13px]'>{title}</p>
+                                <h1 className='text-[17px] select-none font-bold text-gray-800'>{subject.name.toUpperCase()}</h1>
+                                <p className='font-medium select-none text-[13px]'>{title}</p>
                             </div>
                             {data?.data && data.data.length > 0 && <div className='text-xs'>
-                                <button className='btn bg-red-500 text-white'>Download PDF</button>
+                                <button onClick={() => generatePDF(data, subject, title, (p) => setprogress(p), setIsGenerating)} className='btn bg-red-500 text-white'>Download PDF</button>
                             </div>}
                         </div>
                         <div className='flex flex-col gap-5'>
                             {data?.data && data.data.map(photo => (
                                 <div className='relative border border-gray-400' key={photo._id}>
-                                    {user.username === 'admin' && <MdDelete onClick={()=>photoDelete(photo)} className='text-3xl absolute right-0 m-3 text-red-500' />}
+                                    {user.username === 'admin' && <MdDelete onClick={() => photoDelete(photo)} className='text-3xl absolute right-0 m-3 text-red-500' />}
                                     <img src={photo.url} />
                                 </div>
                             ))}
@@ -74,6 +126,15 @@ const Photos = () => {
                     </div>
                 </div>
             </div>
+            {isGenerating && <div className='bg-black/50 z-40 min-h-screen fixed top-0 w-full flex justify-center items-center'>
+                <div className='bg-white w-3/4 rounded-2xl p-4'>
+                    <h1 className='font-bold text-xl flex items-center gap-2'><BiSolidFilePdf className='text-red-600 text-2xl' /> Generating Pdf</h1>
+                    <p className='flex justify-end font-medium'>{progress}%</p>
+                    <div className='bg-gray-300 relative w-full h-2 rounded-2xl'>
+                        <div style={{ width: `${progress}%` }} className="bg-blue-400 transition-all duration-200 h-2 rounded-2xl"></div>
+                    </div>
+                </div>
+            </div>}
             {photoForm && <PhotosForm setphotoForm={setphotoForm} />}
             {(isLoading || deleteOnePhotoNotesOptions.isLoading || deleteOnePhotoAssiOptions.isLoading || deleteOnePhotoLabOptions.isLoading) && <Loading />}
         </>
