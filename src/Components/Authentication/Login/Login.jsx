@@ -25,6 +25,14 @@ const Login = ({ setLoggedIn }) => {
       ...prev,
       [name]: value
     }))
+
+    if (value.includes(" ")) {
+      e.target.style.border = "1px solid red";
+      seterror('White spaces are not allowed')
+    } else {
+      e.target.style.border = "";
+      seterror('')
+    }
   }
 
   const handleSubmit = async (e) => {

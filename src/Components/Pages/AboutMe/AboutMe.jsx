@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaLinkedin } from 'react-icons/fa'
+import { FcAbout } from 'react-icons/fc'
 import { IoLogoWhatsapp } from 'react-icons/io'
 import { MdEmail } from 'react-icons/md'
 
@@ -8,7 +9,10 @@ const AboutMe = () => {
     <div className="flex-1 relative">
       <div className="absolute inset-y-0 top-[12%] left-0 right-0 bg-white rounded-tl-[80px] rounded-tr-[0px] shadow-lg overflow-auto">
         <div className='p-7'>
-          <h1 className='text-3xl mt-5 font-bold text-gray-800'>About me</h1>
+          <div className='text-3xl mt-5 flex gap-3 items-center'>
+          <FcAbout className='mt-1 text-4xl'/>
+          <h1 className='font-bold text-gray-800'>About me</h1>
+          </div>
           <div className='flex flex-col gap-2 items-center justify-center'>
             <img width={200} height={200} className='mt-6 rounded-full' src="creator.jpg" alt="" />
             <h3 className='font-bold text-2xl'>Joshi Jay</h3>

@@ -41,7 +41,7 @@ const Assignments = ({ setassForm, setloading }) => {
       <div className='mt-10'>
         {data?.data && data.data.map(ass => (
         <div key={ass._id} onClick={()=>handleClick(ass)} className='mt-5 p-3 relative flex items-center justify-between shadow-lg border border-gray-300 cursor-pointer pl-7 bg-[#2222] rounded-2xl'>
-          <div className='absolute bg-blue-800 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
+          <div className='absolute bg-theme left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
           <div>
           <p className='name text-[18px] font-semibold'>{`Assignment - ${ass.number}`}</p>
           <p className='name text-sm text-red-700 font-medium'>Deadline: {dateFormate(ass.deadline)}</p>
@@ -51,7 +51,7 @@ const Assignments = ({ setassForm, setloading }) => {
       ))}
         {user.username === 'admin' && <div className='flex flex-col gap-2 items-center mt-10'>
           <p className='font-bold text-xl'>Add Assignment</p>
-          <button onClick={() => setassForm(true)} className='flex w-fit items-center justify-center bg-blue-400 px-10 p-2 rounded-2xl text-white'><FaPlus /> Add</button>
+          <button onClick={() => setassForm(true)} className='flex w-fit items-center justify-center bg-theme px-10 p-2 rounded-2xl text-white'><FaPlus /> Add</button>
         </div>}
       </div>
     </div>

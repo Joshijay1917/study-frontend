@@ -1,0 +1,25 @@
+.goSubDown {
+    animation: goSubDownAnim 0.5s ease-in-out;
+}
+
+.goSubUp {
+    animation: goSubUpAnim 0.5s ease-in-out;
+}
+
+@keyframes goSubDownAnim {
+    0% {
+        top: 0px;
+    }
+    100% {
+        top: 56px;
+    }
+}
+
+@keyframes goSubUpAnim {
+    0% {
+        top: 50px;
+    }
+    100% {
+        top: 0px;
+    }
+}

@@ -33,6 +33,14 @@ const Register = () => {
         [name]: value
       }
     })
+
+    if (value.includes(" ")) {
+      e.target.style.border = "1px solid red";
+      seterr('White spaces are not allowed')
+    } else {
+      e.target.style.border = "";
+      seterr('')
+    }
   }
 
   const validateField = (name, value) => {
@@ -87,8 +95,8 @@ const Register = () => {
           <div className='flex items-center w-full justify-between gap-3'>
             <label className='flex items-center gap-3' htmlFor="password"><FaLock className='text-blue-400' /> Password</label>
             <div className='outline-0 w-[60%] relative flex items-center rounded-2xl'>
-            <input className='bg-gray-800 outline-0 w-full p-3 rounded-2xl' type={showPassword ? "text" : "password"} placeholder='Password' name='password' onChange={handleChange} />
-            {showPassword ? <IoEyeOff onClick={()=>setshowPassword(false)} className='absolute text-gray-300 right-[15px] text-xl'/> : <IoEye onClick={() => setshowPassword(true)} className='absolute text-gray-300 right-[15px] text-xl'/>}
+              <input className='bg-gray-800 outline-0 w-full p-3 rounded-2xl' type={showPassword ? "text" : "password"} placeholder='Password' name='password' onChange={handleChange} />
+              {showPassword ? <IoEyeOff onClick={() => setshowPassword(false)} className='absolute text-gray-300 right-[15px] text-xl' /> : <IoEye onClick={() => setshowPassword(true)} className='absolute text-gray-300 right-[15px] text-xl' />}
             </div>
           </div>
           <div className='flex items-center w-full justify-between gap-3'>

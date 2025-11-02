@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+:root {
+    --bg-color: #27272a;
+    --bg-pages: rgb(255, 255, 255);
+}
+
+.app-bg-theme {
+    background-color: var(--bg-color);
+}
+.app-pages-theme {
+    background-color: var(--bg-pages);
+}
+
+.bg-theme {
+    background-color: #1d4ed8;
+}
+
+.icon-theme {
+    color: #1d4ed8;
+}

@@ -35,7 +35,7 @@ const App = () => {
       LoggedIn ? (
       <>
         <Navbar />
-        <div className="bg-zinc-800 min-h-screen flex">
+        <div className="app-bg-theme min-h-screen flex">
           <Menu />
           {children}
         </div>

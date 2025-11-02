@@ -1,0 +1,42 @@
+.barIn {
+    animation: barInAnim 0.3s ease-in-out;
+}
+
+.barInAss {
+    animation: barInAssAnim 0.3s ease-in-out;
+}
+
+.barInLab {
+    animation: barInLabAnim 0.3s ease-in-out;
+}
+
+@keyframes barInAnim {
+    0% {
+        left: 56px;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes barInAssAnim {
+    0% {
+        left: 0;
+        width: 40px;
+    }
+    100% {
+        left: 56px;
+        width: 80px;
+    }
+}
+
+@keyframes barInLabAnim {
+    0% {
+        left: 56px;
+        width: 80px;
+    }
+    100% {
+        left: 155px;
+        width: 75px;
+    }
+}

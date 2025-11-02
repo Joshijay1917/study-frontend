@@ -22,7 +22,7 @@ const Assignments = ({ data }) => {
       <div className='mt-10'>
         {data?.assignments && data.assignments.map(ass => (
         <div key={ass.typeId} onClick={()=>handleClick(ass)} className='mt-5 p-3 relative shadow-lg border border-gray-300 cursor-pointer pl-7 bg-[#2222] rounded-2xl'>
-          <div className='absolute bg-blue-800 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
+          <div className='absolute bg-theme left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
           <p className='name text-[18px] font-semibold'>{ass.title}</p>
           {/* <p className='name text-sm text-red-700 font-medium'>Deadline: {dateFormate(ass.deadline)}</p> */}
         </div>

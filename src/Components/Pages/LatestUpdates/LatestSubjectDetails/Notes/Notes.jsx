@@ -16,7 +16,7 @@ const Notes = ({ data }) => {
       <div className='mt-10'>
         {data?.notes && data.notes.map(note => (
           <div key={note.typeId} onClick={() => handleClick(note)} className='mt-5 p-3 cursor-pointer shadow-lg border border-gray-300 font-semibold relative pl-7 bg-[#2222] rounded-2xl'>
-            <div className='absolute bg-blue-800 left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
+            <div className='absolute bg-theme left-0 ml-2 h-full top-0 p-1 rounded-l-xl'></div>
             <p className='name'>{note.title}</p>
           </div>
         ))}

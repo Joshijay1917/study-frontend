@@ -39,28 +39,31 @@ const PersonalInfo = () => {
   return (
     <>
     <div className="flex-1 relative">
-      <div className="absolute inset-y-0 top-[12%] left-0 right-0 bg-white rounded-tl-[80px] rounded-tr-[0px] shadow-lg overflow-auto">
+      <div className="absolute inset-y-0 top-[12%] left-0 right-0 app-pages-theme rounded-tl-[80px] rounded-tr-[0px] shadow-lg overflow-auto">
         <div className='p-5'>
-            <h1 className='text-3xl px-2 select-none mt-5 font-bold text-gray-800'>Personal Details</h1>
+            <div className='px-2 select-none mt-5 flex items-center text-3xl gap-3'>
+            <FaUser className='icon-theme'/>
+            <h1 className='font-bold text-gray-800'>Personal Details</h1>
+            </div>
             <div className='py-5 flex flex-col gap-5 text-[15px]'>
                 <div className='flex justify-between gap-3 bg-[#1111] p-3 rounded-2xl overflow-clip shadow-lg border border-gray-300'>
-                    <label className='font-medium flex items-center gap-2'><FaUser className='text-blue-500'/> Username: </label>
+                    <label className='font-medium flex items-center gap-2'><FaUser className='icon-theme'/> Username: </label>
                     <p>{user?.username}</p>
                 </div>
                 <div className='flex justify-between gap-3 bg-[#1111] p-3 rounded-2xl overflow-clip shadow-lg border border-gray-300'>
-                    <label className='font-medium flex gap-2 items-center'><MdEmail className='text-blue-500 text-lg'/> Email: </label>
+                    <label className='font-medium flex gap-2 items-center'><MdEmail className='icon-theme text-lg'/> Email: </label>
                     <p>{user?.email}</p>
                 </div>
                 <div className='flex justify-between gap-3 bg-[#1111] p-3 rounded-2xl overflow-clip shadow-lg border border-gray-300'>
-                    <label className='font-medium flex gap-2 items-center'><FaCodeBranch className='text-blue-500'/> Branch: </label>
+                    <label className='font-medium flex gap-2 items-center'><FaCodeBranch className='icon-theme'/> Branch: </label>
                     <p>{user?.branch}</p>
                 </div>
                 <div className='flex justify-between gap-3 bg-[#1111] p-3 rounded-2xl overflow-clip shadow-lg border border-gray-300'>
-                    <label className='font-medium flex gap-2 items-center'><HiAcademicCap className='text-blue-500 text-xl'/> Year: </label>
+                    <label className='font-medium flex gap-2 items-center'><HiAcademicCap className='icon-theme text-xl'/> Year: </label>
                     <p>{user?.year}</p>
                 </div>
                 <div className='flex justify-between gap-3 bg-[#1111] p-3 rounded-2xl overflow-clip shadow-lg border border-gray-300'>
-                    <label className='font-medium flex gap-2 items-center'><FaPhone className='text-blue-500'/> Phone: </label>
+                    <label className='font-medium flex gap-2 items-center'><FaPhone className='icon-theme'/> Phone: </label>
                     <p>{user?.phone}</p>
                 </div>
                 {isError && <p className='text-center text-red-500 mt-1'>{data?.error?.data?.message}</p>}
