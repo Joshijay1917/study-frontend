@@ -23,7 +23,7 @@ const AboutMe = () => {
           </div>
           <div className='mt-5'>
             <h3 className='text-xl font-semibold'>Contact US</h3>
-            <p className='flex gap-2 mt-2 font-medium'><FaLinkedin className='text-2xl text-blue-800' />@Joshijay19</p>
+            <p className='flex gap-2 mt-2 font-medium'><FaLinkedin className='text-2xl text-blue-800' />@Jay Joshi</p>
             <p className='flex gap-2 mt-2 font-medium'><MdEmail className='text-2xl text-red-900' />jayjoshi1912007@gmail.com</p>
             <p className='flex gap-2 mt-2 font-medium'><IoLogoWhatsapp className='text-2xl text-green-600' />+91 9429248465</p>
           </div>

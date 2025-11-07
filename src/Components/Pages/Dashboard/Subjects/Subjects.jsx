@@ -65,7 +65,7 @@ const Subjects = ({ setLoggedIn, setaddSubForm, data, setLoading }) => {
                 </div>
                 <div className='flex mt-5 items-center gap-3'>
                     <input onChange={handleSearch} className='bg-[#1111] border outline-0 border-gray-300 w-full rounded-2xl p-2' placeholder='Search Subject' />
-                    <IoSearchOutline className='text-[43px] bg-[#1111] p-2 rounded-xl' />
+                    <IoSearchOutline className='text-[43px] bg-[#1111] p-2 rounded-xl border border-gray-300' />
                 </div>
                 {(!subjects || subjects.length === 0) && <p className='text-center pt-5 text-red-500'>No Subjects are available!</p>}
                 {subjects && subjects.map(sub => (

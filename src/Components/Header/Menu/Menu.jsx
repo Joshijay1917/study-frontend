@@ -35,18 +35,21 @@ const Menu = () => {
     }, [showBackBtn])
 
   return (
-     <div className={`gap-5 h-[82vh] top-[18vh] relative px-1 flex flex-col items-center py-10 text-white`}>
-            {btnAnim && <button onClick={()=>navigate(-1)} className={`w-12 in ${!showBackBtn && "out"} absolute top-[-23px] icon h-12 bg-white/20 rounded-full flex items-center justify-center`}>
+     <div className={`gap-5 h-[82vh] md:mx-3 top-[18vh] relative px-1 flex flex-col items-center py-10 text-white`}>
+            {btnAnim && <button onClick={()=>navigate(-1)} className={`w-12 md:hidden in ${!showBackBtn && "out"} absolute top-[-23px] icon h-12 bg-white/20 rounded-full flex items-center justify-center`}>
                 <IoMdArrowBack className={`side text-[30px]`} />
             </button>}
-            <Link to={'/dashboard'} onClick={()=>setcurrManu("Dashboard")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+            <Link to={'/dashboard'} onClick={()=>setcurrManu("Dashboard")} className="w-12 md:w-50 md:gap-3 md:p-6 h-12 bg-white/20 rounded-full flex items-center justify-center">
                 <FaBook className={`${currManu === "Dashboard" ? `text-[35px]` : 'text-xl'}`} />
+                <p className='hidden md:inline'>Dashboard</p>
             </Link>
-            <Link to={'/latestUpdate'} onClick={()=>setcurrManu("History")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+            <Link to={'/latestUpdate'} onClick={()=>setcurrManu("History")} className="w-12 md:w-50 md:gap-3 md:p-6 h-12 bg-white/20 rounded-full flex items-center justify-center">
                 <FaHistory className={`${currManu === "History" ? `text-[35px]` : 'text-xl'}`} />
+                <p className='hidden md:inline'>Latest Updates</p>
             </Link>
-            <Link to={'/aboutme'} onClick={()=>setcurrManu("About")} className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+            <Link to={'/aboutme'} onClick={()=>setcurrManu("About")} className="w-12 md:w-50 md:gap-3 md:p-6 h-12 bg-white/20 rounded-full flex items-center justify-center">
                 <FaUser className={`${currManu === "About" ? `text-[35px]` : 'text-xl'}`} />
+                <p className='hidden md:inline'>About Me</p>
             </Link>
         </div>
   )

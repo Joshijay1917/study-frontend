@@ -51,7 +51,7 @@ const SubjectDetails = () => {
               <p onClick={handleClick} className='select-none cursor-pointer'>Notes</p>
               <p onClick={handleClick} className='select-none cursor-pointer'>Assignments</p>
               <p onClick={handleClick} className='select-none cursor-pointer'>Lab Manual</p>
-              <div style={{transform: `translateX(${activeTab * 100}%)`}} className='bg-theme left-[-40px] w-[40px] transition-all duration-300 absolute h-[6px] top-5.5'></div>
+              <div style={{transform: `translateX(${activeTab * 100}%)`}} className='bg-theme rounded-2xl left-[-40px] w-[40px] transition-all duration-300 absolute h-[6px] top-5.5'></div>
             </div>
             {require === "Notes" && <Notes setnoteForm={setnoteForm} setloading={setloading}/>}
             {require === "Assignments" && <Assignments setassForm={setassForm} setloading={setloading}/>}
